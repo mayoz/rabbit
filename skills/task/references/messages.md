@@ -66,9 +66,11 @@ For example other repositories to read, points to watch, or decisions already
 made. If there's nothing, write `continue`.
 
 ## ask.spec-approval
-The spec is ready: [spec.md](spec.md). {{review_line}}
+The spec is ready. {{review_line}}
 
-Do you approve it? Tell me what to change otherwise.
+Spec: [spec.md](spec.md) · [reviews/spec.md](reviews/spec.md)
+
+Do you approve [spec.md](spec.md)? Tell me what to change otherwise.
 
 ## ask.breaking
 This spec breaks existing consumers:
@@ -79,11 +81,25 @@ Do you accept these breaks? If not, tell me and I'll change the spec to avoid
 them.
 
 ## ask.plan-approval
-The plan is ready: [plan.md](plan.md). {{review_line}}
+The plan is ready. {{review_line}}
 
 Branches: {{branches}}. {{execute_line}}
 
-Do you approve it? When you do, I'll open one dev session per repository.
+Plan: [plan.md](plan.md) · [reviews/plan.md](reviews/plan.md)
+
+Do you approve [plan.md](plan.md)? When you do, I'll open one dev session per
+repository.
+
+## ask.spec-plan-approval
+The spec and the plan are updated. {{review_line}}
+
+Branches: {{branches}}. {{execute_line}}
+
+Spec: [spec.md](spec.md) · [reviews/spec.md](reviews/spec.md)
+Plan: [plan.md](plan.md) · [reviews/plan.md](reviews/plan.md)
+
+Do you approve [spec.md](spec.md) and [plan.md](plan.md)? When you do, I'll
+open one dev session per repository.
 
 ## ask.add-repo
 `{{repo}}` doesn't change in this task, but it uses {{surface}} and would break:

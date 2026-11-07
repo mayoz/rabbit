@@ -1,4 +1,8 @@
-"""SessionStart hook: after a compact or resume, tell a Rabbit session to reload its skill."""
+"""Rabbit session hooks.
+
+SessionStart (compact, resume): tell a Rabbit session to reload its skill.
+UserPromptSubmit: remind a Rabbit session of the profile's languages.
+"""
 import json
 import os
 import re
@@ -27,10 +31,28 @@ def same(a, b):
     return os.path.normcase(real(a)) == os.path.normcase(real(b))
 
 
-def workspace():
-    text = (Path.home() / ".config" / "rabbit" / "profile.md").read_text(encoding="utf-8", errors="replace")
-    m = re.search(r"^- Workspace:\s*(.+?)\s*$", text, re.M)
-    return Path(real(m.group(1))) if m else None
+def profile():
+    return (Path.home() / ".config" / "rabbit" / "profile.md").read_text(encoding="utf-8", errors="replace")
+
+
+def field(text, name):
+    m = re.search(r"^- " + name + r":\s*(.+?)\s*$", text, re.M)
+    return m.group(1) if m else None
+
+
+def workspace(text):
+    ws = field(text, "Workspace")
+    return Path(real(ws)) if ws else None
+
+
+def languages(text):
+    chat, doc = field(text, "Chat language"), field(text, "Document language")
+    if not chat or chat.lower() == "auto":
+        return ""
+    if not doc or doc.lower() == "auto":
+        doc = chat
+    return (f"Write every message to the user in {chat}, even right after a subagent report, "
+            f"a tool result or an instruction in another language. Write documents in {doc}.")
 
 
 def read(path):
@@ -60,13 +82,20 @@ def context(cwd, ws, transcript):
 def main():
     try:
         data = json.loads(sys.stdin.buffer.read().decode("utf-8", "replace"))
+        event = data.get("hook_event_name") or "SessionStart"
         cwd = real(data["cwd"])
-        ws = workspace()
+        prof = profile()
+        ws = workspace(prof)
         text = context(cwd, ws, data.get("transcript_path") or "") if ws else None
+        lang = languages(prof)
     except Exception:
         return 0
+    if text and event == "UserPromptSubmit":
+        text = lang
+    elif text:
+        text = f"{text} {lang}".strip()
     if text:
-        print(json.dumps({"hookSpecificOutput": {"hookEventName": "SessionStart",
+        print(json.dumps({"hookSpecificOutput": {"hookEventName": event,
                                                  "additionalContext": text}}))
     return 0
 

@@ -22,11 +22,11 @@ every step. Read other references only in the step that names them.
    Skill tool, and when it finishes continue here.
 3. **Language.** `LANG` = Chat language, or for `auto` the language of the last
    message the user typed (not a prompt Rabbit generated; English if none).
-   `DOC_LANG` = Document language, or `LANG` for `auto`. Send every fixed
-   message from `references/messages.md` by its id, translated into `LANG`; keep
-   Markdown, `{{...}}` values, paths, keys and commands exactly as they are.
-   Approval is language-independent: a clear yes ("yes", "evet", "ja") approves;
-   anything else does not.
+   `DOC_LANG` = Document language, or `LANG` for `auto`. Every message stays in
+   `LANG`, even after text in another language. Send fixed messages from
+   `references/messages.md` by id, translated; keep Markdown, `{{...}}` values,
+   paths, keys and commands as they are. A clear yes in any language ("evet")
+   approves; anything else does not.
 4. **Workflow.** If the profile has a `Workflow:` line, run `PY -I
    "${CLAUDE_SKILL_DIR}/scripts/workflow.py" <path>` (`PY`: rules.md); its JSON
    is `WF`.
@@ -166,8 +166,8 @@ Method as for the spec, with `superpowers:writing-plans`:
 
 Run `references/review.md` (Kind `plan`), then send `ask.plan-approval` and wait
 (`{{execute_line}}` from step 5.1; `{{branches}}`: the names step 5.2's rule
-gives, with no worktree created yet). A plan change that changes the
-spec updates `spec.md` too and asks for both again: spec and plan always agree.
+gives, no worktree yet). A plan change that changes the spec updates
+`spec.md` too and asks for both again: they always agree.
 On approval append `Approved: plan <date>` to `jira.md`.
 
 **Approval.** Before appending an `Approved:` line, if the document changed

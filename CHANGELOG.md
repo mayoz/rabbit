@@ -4,6 +4,18 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.0.2] - 2026-11-08
+
+### Changed
+- Every spec and plan approval question, including the ones after a change,
+  links the document and its review file.
+- Each prompt in a Rabbit session reminds it of the profile's chat and document
+  languages, and the skills keep every message in the chat language after a
+  subagent report or tool result in another language.
+- `impact.md` lists only surfaces the change alters that cross a repository
+  boundary, defines the producer as the serving side, and no longer counts tests
+  as consumers.
+
 ## [0.0.1] - 2026-11-07
 
 ### Added

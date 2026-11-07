@@ -18,9 +18,10 @@ if any is missing, apply Resume, and if it finds no `Dev:` line, send
    missing, run the `rabbit:setup` skill with the Skill tool, and when it
    finishes continue here.
 2. **Language.** `LANG` = Chat language, or for `auto` the language of the
-   user's last message (English if none). Send every fixed message from
-   `references/messages.md` by its id, translated into `LANG`; keep Markdown,
-   `{{...}}` values, paths, keys and commands exactly as they are. Code,
+   user's last message (English if none). Every message stays in `LANG`, even
+   after text in another language. Send fixed messages from
+   `references/messages.md` by id, translated; keep Markdown, `{{...}}` values,
+   paths, keys and commands as they are. Code,
    comments, commits and pull request text are in English unless the repository
    says otherwise.
 3. **Workflow.** If the profile has a `Workflow:` line, run
