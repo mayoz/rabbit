@@ -1,5 +1,9 @@
 # Releasing
 
+Users get a new version when `version` in `.claude-plugin/plugin.json` changes
+on `main`; the tag only publishes the GitHub release. Tagging needs a GPG or SSH
+signing key set up in git (`user.signingkey`).
+
 1. In a pull request to `main`, bump `version` in `.claude-plugin/plugin.json`
    and add a `## [<version>] - <YYYY-MM-DD>` section to `CHANGELOG.md`.
 2. Run the checks and the evals ([development](development.md)), and pull one

@@ -44,6 +44,9 @@ claude plugin marketplace add mayoz/rabbit
 claude plugin install rabbit@mayoz
 ```
 
+Updates don't install on their own; see
+[Update](docs/installation.md#update) to turn on auto-update.
+
 Then start a new session in Claude Desktop's **Code** tab and run setup. It asks
 five short questions and finds your Jira settings on its own:
 

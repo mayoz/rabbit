@@ -87,8 +87,18 @@ Next: [Getting started](getting-started.md).
 
 ## Update
 
-Plugins from a third-party marketplace do not update on their own. To get the
-latest version:
+Plugins from a third-party marketplace do not update on their own.
+
+To update automatically, run `/plugin` in a session, open **Marketplaces**,
+choose `mayoz` and turn on **Enable auto-update**. Claude Code then checks for a
+new version shortly after you start a session and tells you to run
+`/reload-plugins`.
+
+To update by hand:
+
+```bash
+claude plugin marketplace update mayoz
+```
 
 ```bash
 claude plugin update rabbit@mayoz
