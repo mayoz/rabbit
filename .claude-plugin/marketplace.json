@@ -1,0 +1,15 @@
+{
+  "name": "mayoz",
+  "description": "Plugins by mayoz for Claude Code.",
+  "owner": {
+    "name": "mayoz",
+    "url": "https://github.com/mayoz"
+  },
+  "plugins": [
+    {
+      "name": "rabbit",
+      "source": "./",
+      "description": "Your sprint pacer for Claude Code."
+    }
+  ]
+}

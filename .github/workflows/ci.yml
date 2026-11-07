@@ -1,0 +1,78 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  unit:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Unit tests
+        run: python -I -m unittest discover -s tests
+
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install Claude Code
+        run: npm install -g @anthropic-ai/claude-code
+
+      - name: Validate plugin
+        run: claude plugin validate . --strict
+
+      - name: Always-on token budget
+        run: |
+          claude --plugin-dir . plugin details rabbit | tee details.txt
+          tokens=$(sed -nE 's/.*Always-on:[^0-9]*([0-9]+).*/\1/p' details.txt | head -1)
+          echo "always-on: ${tokens:-unknown} tokens (limit 1000)"
+          [ -n "$tokens" ] && [ "$tokens" -le 1000 ]
+
+      - name: Script tests
+        run: |
+          git config --global user.name ci
+          git config --global user.email ci@example.com
+          for t in tests/*.sh; do bash "$t"; done
+
+      - name: Shellcheck
+        run: shellcheck scripts/*.sh scripts/hooks/* tests/*.sh evals/*/fixture.sh
+
+      - name: Leak scan
+        env:
+          LEAK_PATTERNS: ${{ secrets.LEAK_PATTERNS }}
+        run: scripts/leak-scan.sh
+
+      - name: Skill size
+        run: scripts/check-skill-size.sh
+
+      - name: Markdown line width
+        run: python3 -I scripts/check-line-width.py
+
+      - name: Version bump
+        if: github.event_name == 'pull_request'
+        run: scripts/check-version-bump.sh "origin/${{ github.base_ref }}"

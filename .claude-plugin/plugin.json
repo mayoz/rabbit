@@ -1,0 +1,11 @@
+{
+  "name": "rabbit",
+  "displayName": "Rabbit",
+  "version": "0.0.1",
+  "description": "Your sprint pacer for Claude Code: pull your Jira sprint into Claude Desktop and drive every task through a verified brief, spec and plan, per-repository dev sessions, an integration check and the push.",
+  "author": { "name": "mayoz", "url": "https://github.com/mayoz" },
+  "homepage": "https://github.com/mayoz/rabbit",
+  "repository": "https://github.com/mayoz/rabbit",
+  "license": "MIT",
+  "keywords": ["jira", "sprint", "workflow", "claude-desktop", "spec", "planning"]
+}

@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: dev-waits-for-push
+context:
+  scaffold_script: fixture.sh
