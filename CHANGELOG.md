@@ -37,4 +37,4 @@ All notable changes to this project are documented here. The format follows
 - Runs on macOS, Windows and Linux; the helper scripts and hooks are Python 3
   with the standard library only.
 
-[0.0.1]: https://github.com/mayoz/rabbit/releases/tag/rabbit--v0.0.1
+[0.0.1]: https://github.com/mayoz/rabbit/releases/tag/v0.0.1

@@ -2,7 +2,7 @@ name: release
 
 on:
   push:
-    tags: ['rabbit--v*']
+    tags: ['v*']
 
 permissions:
   contents: write
@@ -15,7 +15,7 @@ jobs:
 
       - name: Release notes from CHANGELOG
         run: |
-          version=${GITHUB_REF_NAME#rabbit--v}
+          version=${GITHUB_REF_NAME#v}
           awk -v v="$version" '
             index($0, "## [" v "]") == 1 { on = 1; next }
             on && /^## \[/ { exit }
@@ -26,4 +26,4 @@ jobs:
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release create "$GITHUB_REF_NAME" --title "Rabbit ${GITHUB_REF_NAME#rabbit--v}" --notes-file notes.md
+        run: gh release create "$GITHUB_REF_NAME" --title "Rabbit ${GITHUB_REF_NAME#v}" --notes-file notes.md
