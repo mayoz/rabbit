@@ -25,9 +25,10 @@ says so.
    and stop.
 3. **Language.** `LANG` = Chat language, or for `auto` the language of the
    user's last message (English if none). `DOC_LANG` = Document language, or
-   `LANG` for `auto`. Send every fixed message from `references/messages.md` by
-   its id, translated into `LANG`; keep Markdown, `{{...}}` values, paths, keys
-   and commands exactly as they are.
+   `LANG` for `auto`. Every message stays in `LANG`, even after text in another
+   language. Send fixed messages from `references/messages.md` by id,
+   translated; keep Markdown, `{{...}}` values, paths, keys and commands as they
+   are.
 
 Constants: `FIELD` = Tracker Sprint field; tracker calls use the profile's Tools
 (with `cloudId` = Site when the tool takes one); `WORKSPACE` = Basics Workspace

@@ -7,7 +7,9 @@ repositories and write the impact list. Keep the token budget small.
 
 1. List every surface the change alters: HTTP endpoint and response shape, queue
    or event payload, database table and column, config or env key, exported
-   function or class.
+   function or class. A surface the change only reads or reuses unchanged, and
+   a document, is not a row. A surface whose producer and every consumer sit
+   in the same repository gets no row: name it in one line under the table.
 2. Find each surface's consumers (and producers, for what the task reads):
    - If the workflow's `## Brief` or `## Integration` names a code-search tool,
      use it first. Its results are leads, not proof.
@@ -24,8 +26,11 @@ repositories and write the impact list. Keep the token budget small.
 | --- | --- | --- | --- | --- |
 ```
 
-`Kind` is one of `endpoint`, `payload`, `db`, `config`, `symbol`. `Contract
-test` names the plan task that adds the test, or `none (<reason>)`.
+`Kind` is one of `endpoint`, `payload`, `db`, `config`, `symbol`. `Producer`
+is the side that serves the endpoint, emits the payload, owns the table or
+defines the key or symbol; a caller is a consumer. Tests are not consumers.
+`Contract test` names the plan task that adds the test, or `none (<reason>)`.
+Call a repository not cloned only after checking the Repositories folder.
 
 ## Findings
 

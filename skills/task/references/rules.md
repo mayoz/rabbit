@@ -36,6 +36,10 @@ design that fully meets the task.
   each with your recommended answer and its evidence. A detail that changes
   neither: take the simplest option and write it in the document as `my call:
   <choice> — <one-line reason>`, translated into `DOC_LANG`.
+- **Approval questions use their message.** Every spec or plan approval
+  question, the first and each one after a change, is `ask.spec-approval`,
+  `ask.plan-approval` or, for both, `ask.spec-plan-approval`, with its document
+  links; never a question of your own.
 - **A turn that waits for the user ends with its question.** Everything else
   first, the question or approval request last; a table sent with a question
   comes before it. Do not call `wrap_up` on such a turn.

@@ -74,7 +74,7 @@ claude plugin eval . --trust-plugin --no-publish --ablation none --tag setup --a
 | `skills/<name>/SKILL.md` | A command's instructions. Detail lives in `references/`. |
 | `skills/task/scripts/` | `workflow.py` parses a workflow file; `find_repo.py` finds a repository by name. |
 | `agents/observer.md` | The blind reviewer. |
-| `hooks/` | `session_start.py` reloads a skill after a compaction; `observer_guard.py` keeps the observer read-only. |
+| `hooks/` | `session_start.py` reloads a skill after a compaction and reminds a Rabbit session of the profile's languages on each prompt; `observer_guard.py` keeps the observer read-only. |
 | `tests/` | Unit tests for the scripts and hooks, and shell tests for the checks. |
 | `evals/` | Local eval cases, one folder each. |
 

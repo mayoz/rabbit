@@ -37,11 +37,13 @@ class SessionStartTest(unittest.TestCase):
         t.write_text(text)
         return t
 
-    def run_hook(self, cwd, stdin=None, transcript=None):
+    def run_hook(self, cwd, stdin=None, transcript=None, event=None):
         if transcript is None:
             transcript = self.transcript('{"content": "Invoke the `rabbit:task` skill"}\n')
-        data = stdin if stdin is not None else json.dumps(
-            {"cwd": str(cwd), "source": "compact", "transcript_path": str(transcript)})
+        data = {"cwd": str(cwd), "source": "compact", "transcript_path": str(transcript)}
+        if event:
+            data["hook_event_name"] = event
+        data = stdin if stdin is not None else json.dumps(data)
         env = {"HOME": str(self.home), "USERPROFILE": str(self.home),
                "PATH": os.environ.get("PATH", "")}
         if "SYSTEMROOT" in os.environ:
@@ -146,6 +148,36 @@ class SessionStartTest(unittest.TestCase):
     def test_output_json(self):
         out = json.loads(self.run_hook(self.task("SP_23", "ABC-1")))
         self.assertEqual(out["hookSpecificOutput"]["hookEventName"], "SessionStart")
+
+    def test_languages_after_compact(self):
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n"
+                     "- Chat language: Turkish\n- Document language: auto\n")
+        text = self.context(self.run_hook(self.task("SP_23", "ABC-1")))
+        self.assertIn("rabbit:task", text)
+        self.assertIn("message to the user in Turkish", text)
+        self.assertIn("documents in Turkish", text)
+
+    def test_auto_language_adds_nothing(self):
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: auto\n")
+        self.assertNotIn("message to the user", self.context(self.run_hook(self.task("SP_23", "ABC-1"))))
+
+    def test_prompt_reminds_language_only(self):
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n"
+                     "- Chat language: Turkish\n- Document language: English\n")
+        out = json.loads(self.run_hook(self.task("SP_23", "ABC-1"), event="UserPromptSubmit"))
+        self.assertEqual(out["hookSpecificOutput"]["hookEventName"], "UserPromptSubmit")
+        text = out["hookSpecificOutput"]["additionalContext"]
+        self.assertIn("in Turkish", text)
+        self.assertIn("documents in English", text)
+        self.assertNotIn("rabbit:task", text)
+
+    def test_prompt_outside_rabbit_or_auto_is_silent(self):
+        d = self.root / "elsewhere"
+        d.mkdir()
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
+        self.assertEqual(self.run_hook(d, event="UserPromptSubmit"), "")
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: auto\n")
+        self.assertEqual(self.run_hook(self.task("SP_23", "ABC-1"), event="UserPromptSubmit"), "")
 
 
 if __name__ == "__main__":
