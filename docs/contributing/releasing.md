@@ -18,7 +18,8 @@
    git push origin v<version>
    ```
 
-   The tag must match `version` in `.claude-plugin/plugin.json`.
+   The tag must match `version` in `.claude-plugin/plugin.json`; the
+   `release` workflow stops when it does not.
 4. The `release` workflow publishes a GitHub release with that CHANGELOG
    section.
 5. On a clean machine, run the install commands from the README and check that
