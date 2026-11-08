@@ -36,8 +36,9 @@ Your workflow file needs a value for `{{placeholder}}` ({{stage}}:
 What should it be?
 
 ## ask.execute
-How should I implement the plan: `superpowers` (`superpowers:executing-plans`)
-or `native` (Rabbit's own loop, one commit per plan step)?
+How should I implement the plan?
+Options: superpowers (`superpowers:executing-plans`) · native (Rabbit's own
+loop, one commit per plan step)
 
 ## done
 All {{repo}} steps are done and I reviewed the diff:
@@ -69,4 +70,5 @@ since you last approved it:
 
 {{instructions}}
 
-Shall I run these when their moment comes? A no skips them for this task.
+Shall I run these when their moment comes?
+Options: Run them (Recommended) · Skip them for this task

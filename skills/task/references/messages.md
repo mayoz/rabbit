@@ -47,8 +47,9 @@ What should it be?
 > Take a look at `brief.md` before we go on to the questions. {{review_line}}
 
 ## ask.repos
-**Which repositories do we need to work in for {{key}}?** You can write one or
-more repository names, for example {{examples}}.
+**Which repositories do we need to work in for {{key}}?**
+Options (multiple choice): up to 4 repositories `brief.md` names, for example
+{{examples}}; Other for the rest.
 
 ## ask.repo-missing
 I can't find {{names}} in `{{folder}}` (I looked there and one folder deeper).
@@ -63,22 +64,24 @@ Repositories: {{repos}}.
 ## ask.note
 **Is there anything you'd like to add to the `brief.md` created for {{key}}?**
 For example other repositories to read, points to watch, or decisions already
-made. If there's nothing, write `continue`.
+made.
+Options: Nothing to add (Recommended); Other for your note.
 
 ## ask.spec-approval
 The spec is ready. {{review_line}}
 
 Spec: [spec.md](spec.md) · [reviews/spec.md](reviews/spec.md)
 
-Do you approve [spec.md](spec.md)? Tell me what to change otherwise.
+Do you approve [spec.md](spec.md)?
+Options: Approve (Recommended) · Not yet, I'll say what to change
 
 ## ask.breaking
 This spec breaks existing consumers:
 
 {{breaks}}
 
-Do you accept these breaks? If not, tell me and I'll change the spec to avoid
-them.
+Do you accept these breaks?
+Options: Accept · Change the spec to avoid them
 
 ## ask.plan-approval
 The plan is ready. {{review_line}}
@@ -89,6 +92,7 @@ Plan: [plan.md](plan.md) · [reviews/plan.md](reviews/plan.md)
 
 Do you approve [plan.md](plan.md)? When you do, I'll open one dev session per
 repository.
+Options: Approve (Recommended) · Not yet, I'll say what to change
 
 ## ask.spec-plan-approval
 The spec and the plan are updated. {{review_line}}
@@ -100,11 +104,12 @@ Plan: [plan.md](plan.md) · [reviews/plan.md](reviews/plan.md)
 
 Do you approve [spec.md](spec.md) and [plan.md](plan.md)? When you do, I'll
 open one dev session per repository.
+Options: Approve (Recommended) · Not yet, I'll say what to change
 
 ## ask.add-repo
 `{{repo}}` doesn't change in this task, but it uses {{surface}} and would break:
-{{evidence}}. Should I add it to the plan as a changing repository? (`yes` /
-`no`)
+{{evidence}}. Should I add it to the plan as a changing repository?
+Options: Add it (Recommended) · Leave it out
 
 ## integration.report
 Integration for **{{key}}**: {{summary}}
@@ -118,12 +123,13 @@ Integration created this test data in your local services:
 
 {{items}}
 
-Shall I remove it? I remove only these items, one by one; a no keeps them.
+Shall I remove it? I remove only these items, one by one.
+Options: Remove (Recommended) · Keep
 
 ## ask.suite-command
 How do I run the full test suite of `{{repo}}`? I couldn't find it in its
-`CLAUDE.md`, README or CI config. Reply with the command, or `skip` to leave it
-to CI.
+`CLAUDE.md`, README or CI config.
+Options: Leave it to CI · Other for the command
 
 ## ask.workflow-approval
 Your workflow file asks me to act outside this machine. It is new or changed
@@ -131,7 +137,8 @@ since you last approved it:
 
 {{instructions}}
 
-Shall I run these when their moment comes? A no skips them for this task.
+Shall I run these when their moment comes?
+Options: Run them (Recommended) · Skip them for this task
 
 ## ask.run-command
 How do I start `{{repo}}` locally? I couldn't find it in its `CLAUDE.md`,
@@ -149,19 +156,20 @@ Done: {{repos}}. These scenarios did not pass:
 {{rows}}
 
 {{behind_line}}
-Push anyway? If yes: open the pull requests as **draft** (recommended, since not
-everything passed) or **ready** for review?
+Push anyway?
+Options: Push as draft (Recommended) · Push ready for review · Don't push yet
 
 ## ask.push
 Done: {{repos}}. {{behind_line}}
-Shall I push and open the pull requests **ready** for review (recommended) or
-as **draft**?
-Some CI checks skip draft pull requests.
+Shall I push and open the pull requests? Some CI checks skip draft pull
+requests.
+Options: Push ready for review (Recommended) · Push as draft · Don't push yet
 
 ## ask.push-manual
 Done: {{repos}}. {{behind_line}}
 None of these repositories is on GitHub, so I'll push the branches and you open
 the merge requests yourself. Shall I push?
+Options: Push (Recommended) · Don't push yet
 
 ## draft.waiting
 The pull requests are drafts, so I'm not following CI or applying the after-push
@@ -175,10 +183,12 @@ Pull requests for **{{key}}**:
 
 ## ask.ci
 Shall I follow CI for these pull requests?
+Options: Follow CI (Recommended) · No
 
 ## ci.failed
 A required check failed on `{{repo}}` ({{pr}}): **{{check}}**. {{reason}}
 Shall I fix it and push the fix to the same branch?
+Options: Fix and push (Recommended) · Leave it
 
 ## ci.passed
 All required checks passed: {{prs}}.

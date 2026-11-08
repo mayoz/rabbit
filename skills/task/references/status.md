@@ -19,10 +19,12 @@ kind counts.
 | `Integration: …`, `Cleanup: …` | integration.md |
 | `Push:`, `PR: <repo> <url> <draft\|ready>` or `PR: <repo> manual`, `Pushed:`, `Ready:`, `CI:`, `After:` | publish.md |
 | `Answer: <placeholder> <value>` | Stages |
+| `Asked: <message id> <topic> <date>`, `Answered: <message id> <topic> <date>` | rules.md Questions |
 
 ## Resume
 
-Continue at the first step whose output is missing:
+First ask again every `Asked:` line without its `Answered:` (rules.md
+Questions). Then continue at the first step whose output is missing:
 - no `brief.md` → 1; no `Repositories:` → 1.3 (with `JIRA_REPOS`, or ask again);
   no `Note:` → 1.6;
 - no `Approved: spec`, or a `Changed: spec` after the last `Approved: spec` → 2

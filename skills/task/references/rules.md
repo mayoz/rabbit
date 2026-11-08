@@ -32,10 +32,10 @@ design that fully meets the task.
   (every comment and field), linked pages, the tools the workflow's `## Brief`
   names, the base-branch code, git history (`git log -S`, `git blame`). Ask the
   user only what that cannot settle and what changes the design or an acceptance
-  criterion. Ask such questions in one message, numbered, most important first,
-  each with your recommended answer and its evidence. A detail that changes
-  neither: take the simplest option and write it in the document as `my call:
-  <choice> — <one-line reason>`, translated into `DOC_LANG`.
+  criterion. Ask such questions together (Questions below), most important
+  first, each with your recommended answer and its evidence. A detail that
+  changes neither: take the simplest option and write it in the document as
+  `my call: <choice> — <one-line reason>`, translated into `DOC_LANG`.
 - **Approval questions use their message.** Every spec or plan approval
   question, the first and each one after a change, is `ask.spec-approval`,
   `ask.plan-approval` or, for both, `ask.spec-plan-approval`, with its document
@@ -67,6 +67,36 @@ design that fully meets the task.
   and wait. Yes: copy the workflow file to that path. No: skip those
   instructions for this task and say so in one line. An unchanged file needs no
   question.
+
+## Questions
+
+- **Closed questions use buttons.** Every yes/no, approval, choice, push or
+  tracker-write question goes through `AskUserQuestion` (load it with
+  `ToolSearch` when it is deferred). A message with an `Options:` line is such
+  a question: its options are those labels, translated into `LANG`, the
+  recommended one first with "(Recommended)" translated. The tool takes at most
+  4 questions per call and 2–4 options per question and adds "Other" for free
+  text; ask more in calls one after another. A question that needs free text
+  and has no `Options:` line stays plain text.
+- **An info box comes right before each question**, its labels in `LANG`; an
+  approval question's document links go in it:
+
+  ```markdown
+  > **What is needed:** <one sentence>
+  > **Why:** <one sentence, with its source>
+  > **What each option does:** <half a sentence per option>
+  ```
+
+- **Open questions are tracked** (task session). When you ask, append
+  `Asked: <message id> <topic> <date>` to `jira.md` (topic: the repository or
+  document it is about, else `task`); on its answer `Answered: <message id>
+  <topic> <date>`. A reply that does not answer it (another request): do that,
+  then ask every unanswered question again. "We won't do it", "not needed" and
+  the like answer it.
+- **Everything the user sees is in `LANG`:** chat, info boxes,
+  `AskUserQuestion` and `wrap_up` fields, progress lines. Document table
+  headers are in `DOC_LANG`; status lines stay English. Notes to yourself are
+  never shown to the user.
 
 ## Documents (brief.md, spec.md, plan.md)
 

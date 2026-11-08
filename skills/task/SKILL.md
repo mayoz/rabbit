@@ -104,8 +104,8 @@ and apply its Resume rule.
    the merge request yourself"), append `Repositories: <name (changes|read)>, …`
    to `jira.md`, then `mcp__ccd_directory__request_directory` for each
    repository.
-6. Send `ask.note` and end the turn. The reply is `NOTE` (`continue` in any
-   language or `no` = none). Repositories it asks you to read are **read**
+6. Send `ask.note` and end the turn. The reply is `NOTE` (its "nothing to
+   add" option = none). Repositories it asks you to read are **read**
    unless it says they change.
    Add what `NOTE` changes to `brief.md`. If it has no `## Where to start` yet,
    add it now (brief-format.md) and run review.md on it again with these
@@ -179,12 +179,11 @@ update both documents, review and ask again; after the new approval send
 ## 5. Dev sessions (stage Execute)
 
 Plan approval is the go-ahead; do not wait for "start".
-1. Execute method: as `WF.stages.Execute` says; else the one the plan approval
-   named (`yes native`); else `superpowers` when a `superpowers:executing-plans`
-   skill exists, `native` otherwise. `{{execute_line}}` names that default and
-   the other choice, or is empty when the workflow decides. Append `Execute:
-   <method>` to `jira.md`. This session reads the Execute instructions only to
-   choose the method; the dev sessions apply them.
+1. Execute method: as `WF.stages.Execute` says; else `superpowers` when a
+   `superpowers:executing-plans` skill exists, `native` otherwise.
+   `{{execute_line}}` names it, or is empty when the workflow decides. Append
+   `Execute: <method>` to `jira.md`. This session reads the Execute
+   instructions only to choose the method; the dev sessions apply them.
 2. For each **changes** repository with tasks in `plan.md`: base as rules.md
    says; branch from its `CLAUDE.md` or `.claude/rules/`, else one in the style
    of its recent branches (`git -C <repo> for-each-ref
