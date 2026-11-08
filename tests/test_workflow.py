@@ -55,6 +55,24 @@ class WorkflowTest(unittest.TestCase):
         r = wf.parse('## Push:After\nRun `/x <KEY> <environment>`. Use <spec rules>.\n')
         self.assertEqual(r['placeholders'], ['<environment>', '<spec rules>'])
 
+    def test_environment_items(self):
+        r = wf.parse('## Environment\n- aws\n- db\n## Push\n- a\n')
+        self.assertEqual(r['environment'], ['- aws', '- db'])
+        self.assertNotIn('Environment', r['stages'])
+        self.assertEqual(r['unknown'], [])
+
+    def test_environment_absent(self):
+        self.assertEqual(wf.parse('## Push\n- a\n')['environment'], [])
+
+    def test_environment_suffix_is_unknown(self):
+        r = wf.parse('## Environment:After\n- x\n')
+        self.assertEqual(r['unknown'], ['Environment:After'])
+        self.assertEqual(r['environment'], [])
+
+    def test_environment_placeholders(self):
+        r = wf.parse('## environment\n- host <partner>.example.test for <KEY>\n')
+        self.assertEqual(r['placeholders'], ['<partner>'])
+
     def test_text_before_first_heading_ignored(self):
         r = wf.parse('# Rabbit workflow\nintro\n## Push\n- a\n')
         self.assertEqual(r['unknown'], [])
