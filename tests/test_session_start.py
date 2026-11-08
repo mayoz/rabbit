@@ -180,5 +180,67 @@ class SessionStartTest(unittest.TestCase):
         self.assertEqual(self.run_hook(self.task("SP_23", "ABC-1"), event="UserPromptSubmit"), "")
 
 
+    def prompt(self, jira, event="UserPromptSubmit"):
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
+        return self.context(self.run_hook(self.task("SP_23", "ABC-1", jira), event=event))
+
+    def test_reminds_integration_when_all_done(self):
+        text = self.prompt("Repositories: api (changes), web (changes), lib (read)\n"
+                           "Done: api 2026-11-08\nDone: web 2026-11-08\n")
+        self.assertIn("Integration has not run; run it before anything about push.", text)
+        self.assertIn("in Turkish", text)
+
+    def test_no_integration_reminder_when_ran_or_pending(self):
+        done = "Repositories: api (changes)\nDone: api 2026-11-08\n"
+        self.assertNotIn("Integration", self.prompt(done + "Integration: passed 2026-11-08\n"))
+        self.tmp.cleanup(); self.setUp()
+        self.assertNotIn("Integration", self.prompt("Repositories: api (changes), web (changes)\n"
+                                                    "Done: api 2026-11-08\n"))
+
+    def test_no_integration_reminder_without_repositories(self):
+        self.assertNotIn("Integration", self.prompt("Done: api 2026-11-08\n"))
+
+    def test_no_integration_reminder_for_read_only(self):
+        self.assertNotIn("Integration", self.prompt("Repositories: api (read)\n"))
+
+    def test_repositories_with_backticks_and_spaces(self):
+        text = self.prompt("Repositories: `api` ( changes ),  `web-app (changes)`\n"
+                           "Done: `api` 2026-11-08\nDone: web-app 2026-11-08\n")
+        self.assertIn("Integration has not run", text)
+
+    def test_unanswered_question_per_topic(self):
+        text = self.prompt("Asked: ask.cleanup api 2026-11-08\n"
+                           "Asked: ask.cleanup web 2026-11-08\n"
+                           "Answered: ask.cleanup api 2026-11-08\n")
+        self.assertIn("Unanswered questions: ask.cleanup web.", text)
+        self.assertNotIn("ask.cleanup api", text)
+
+    def test_all_answered_no_reminder(self):
+        self.assertNotIn("Unanswered", self.prompt("Asked: ask.note none 2026-11-08\n"
+                                                   "Answered: ask.note none 2026-11-09\n"))
+
+    def test_no_reminders_in_dev_session(self):
+        wt = self.root / "r" / "api" / ".claude" / "worktrees" / "abc-1"
+        wt.mkdir(parents=True)
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
+        self.task("SP_23", "ABC-1", f"Dev: api local_abc {wt} feature/ABC-1 main\n"
+                  "Repositories: api (changes)\nDone: api 2026-11-08\n"
+                  "Asked: ask.cleanup api 2026-11-08\n")
+        text = self.context(self.run_hook(wt, event="UserPromptSubmit"))
+        self.assertNotIn("Integration", text)
+        self.assertNotIn("Unanswered", text)
+
+    def test_post_tool_use_language(self):
+        out = self.prompt("Asked: ask.cleanup api 2026-11-08\n", event="PostToolUse")
+        self.assertIn("in Turkish", out)
+        self.assertNotIn("Unanswered", out)
+        self.assertNotIn("rabbit:task", out)
+
+    def test_post_tool_use_outside_rabbit_silent(self):
+        d = self.root / "elsewhere"
+        d.mkdir()
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
+        self.assertEqual(self.run_hook(d, event="PostToolUse"), "")
+
 if __name__ == "__main__":
     unittest.main()

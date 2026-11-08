@@ -49,6 +49,12 @@ class HooksJsonTest(unittest.TestCase):
         self.assertEqual(run({"tool_name": "Bash", "tool_input": {"command": "x"}}, empty),
                          (0, ""))
 
+    def test_post_tool_use_language_hook(self):
+        entry = HOOKS["PostToolUse"][0]
+        self.assertEqual(entry["matcher"], "Agent|Task")
+        self.assertEqual(entry["hooks"][0]["command"],
+                         HOOKS["UserPromptSubmit"][0]["hooks"][0]["command"])
+
 
 if __name__ == "__main__":
     unittest.main()
