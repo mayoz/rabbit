@@ -1,3 +1,11 @@
+## Environment
+
+- Before running the app, check that the cloud credentials work (for example
+  `aws sts get-caller-identity`); when they don't, ask me to refresh them as a
+  blocker, then check again.
+- Create new test data for each scenario, named with the task key, and list it
+  in the environment log.
+
 ## Brief
 
 If an error tracker is connected, check every error the task mentions in it; if

@@ -58,11 +58,13 @@ def parse(text):
     if heading is not None:
         sections.append((heading, body))
 
-    stages, unknown, placeholders = {}, [], []
+    stages, environment, unknown, placeholders = {}, [], [], []
     for heading, body in sections:
         items = _items(body)
         targets = _targets(heading)
-        if not targets:
+        if ' '.join(heading.lower().split()) == 'environment':
+            environment.extend(items)
+        elif not targets:
             unknown.append(heading)
             continue
         for stage, when in targets:
@@ -72,7 +74,8 @@ def parse(text):
         for p in PLACEHOLDER.findall('\n'.join(items)):
             if p not in RABBIT_VARS and p not in HTML and p not in placeholders:
                 placeholders.append(p)
-    return {'stages': stages, 'unknown': unknown, 'placeholders': placeholders}
+    return {'stages': stages, 'environment': environment, 'unknown': unknown,
+            'placeholders': placeholders}
 
 
 def main(argv):

@@ -32,10 +32,10 @@ design that fully meets the task.
   (every comment and field), linked pages, the tools the workflow's `## Brief`
   names, the base-branch code, git history (`git log -S`, `git blame`). Ask the
   user only what that cannot settle and what changes the design or an acceptance
-  criterion. Ask such questions in one message, numbered, most important first,
-  each with your recommended answer and its evidence. A detail that changes
-  neither: take the simplest option and write it in the document as `my call:
-  <choice> — <one-line reason>`, translated into `DOC_LANG`.
+  criterion. Ask such questions together (Questions below), most important
+  first, each with your recommended answer and its evidence. A detail that
+  changes neither: take the simplest option and write it in the document as
+  `my call: <choice> — <one-line reason>`, translated into `DOC_LANG`.
 - **Approval questions use their message.** Every spec or plan approval
   question, the first and each one after a change, is `ask.spec-approval`,
   `ask.plan-approval` or, for both, `ask.spec-plan-approval`, with its document
@@ -68,6 +68,38 @@ design that fully meets the task.
   instructions for this task and say so in one line. An unchanged file needs no
   question.
 
+## Questions
+
+- **Closed questions use buttons.** Every yes/no, approval, choice, push or
+  tracker-write question goes through `AskUserQuestion` (load it with
+  `ToolSearch` when it is deferred). A message with an `Options:` line is such
+  a question: its options are those labels, translated into `LANG`, the
+  recommended one first with "(Recommended)" translated. The tool takes at most
+  4 questions per call and 2–4 options per question and adds "Other" for free
+  text; ask more in calls one after another. A question that needs free text
+  and has no `Options:` line stays plain text. An option that offers to type
+  ("I'll write a note"): its answer is the user's next message; ask for it
+  in one plain line.
+- **An info box comes right before each question**, its labels in `LANG`; an
+  approval question's document links go in it:
+
+  ```markdown
+  > **What is needed:** <one sentence>
+  > **Why:** <one sentence, with its source>
+  > **What each option does:** <half a sentence per option>
+  ```
+
+- **Open questions are tracked** (task session). When you ask, append
+  `Asked: <message id> <topic> <date>` to `jira.md` (topic: the repository or
+  document it is about, else `task`); on its answer `Answered: <message id>
+  <topic> <date>`. A reply that does not answer it (another request): do that,
+  then ask every unanswered question again. "We won't do it", "not needed" and
+  the like answer it.
+- **Everything the user sees is in `LANG`:** chat, info boxes,
+  `AskUserQuestion` and `wrap_up` fields, progress lines. Document table
+  headers are in `DOC_LANG`; status lines stay English. Notes to yourself are
+  never shown to the user.
+
 ## Documents (brief.md, spec.md, plan.md)
 
 Written in `DOC_LANG` for a human who reads each in one go.
@@ -89,6 +121,18 @@ Before writing each statement ask: *Is it proven? If a developer does exactly
 this, does it work? Does this document need it, here?* Rewrite or drop whatever
 fails one.
 
+Word targets, code blocks and tables included:
+
+| Document | 1 repository | Each further repository |
+| --- | --- | --- |
+| brief | 300 | +0 |
+| spec | 900 | +400 |
+| plan | 700 | +300 |
+
+Count with `wc -w` once the document is written. Over the target: before the
+review, drop what the reader does not need. When the needed content is longer,
+the document stays long; write no explanation for it.
+
 ## Repository list
 
 `jira.md` keeps one list with a role per repository: **changes** (code changes
@@ -97,7 +141,7 @@ step. On every change:
 1. Adding a repository: `mcp__ccd_directory__request_directory` on it; read its
    `CLAUDE.md` and the relevant `.claude/rules/`.
 2. Update `jira.md`. After spec or plan approval, also update their repository
-   sections and tasks, show what changed and ask for approval again.
+   sections and tasks, show what changed and follow review.md **Changes**.
 3. Removing a repository after dev sessions started: list its worktree, branch
    and session and ask before removing each. Never delete a branch or commits
    yourself.
@@ -107,12 +151,17 @@ step. On every change:
 Before the first command in a worktree that boots the application or runs its
 tests (a dev session's tests, `rabbit: run`, the Integration stage), in this
 order:
-1. **Setup.** No dependencies (for example `vendor/`, `node_modules/`, `.venv/`)
-   or no `.env`: send `ask.run-setup` once with the install command from the
-   repository's documents and the copy of `.env` from the main checkout. These
-   are the only files a session adds to a worktree outside the plan; never
-   commit them. No: do not run it; what needed it is `unverified`, To pass
-   "install the dependencies in `<worktree>`".
+1. **Setup, without asking.** Apply the workflow's `## Environment`
+   (`WF.environment`) at every step that runs something. Missing dependencies
+   (for example `vendor/`, `node_modules/`, `.venv/`) or `.env`: install them
+   with the command from the repository's documents, copy `.env` from the main
+   checkout and run the repository's own setup command; never commit these
+   files. A setting a test needs may change for that test and is restored when
+   it ends. Test data is always new and made for its scenario; existing records
+   are not trusted. Each record's name or title holds the task key (`<KEY>
+   <purpose>`, for example `ABC-123 paused recipient`). Every step goes to the
+   environment log (integration.md); a dev session sends it as `Env:` lines
+   in `rabbit: done` and `rabbit: result`.
 2. **Safety.** Read every service address the command would connect to
    (database, cache, queue, mail, storage, payment, external API; not one the
    config leaves unused, such as `DB_HOST` when the tests use sqlite) from the
@@ -126,12 +175,25 @@ order:
    it is `unverified`, Reason "`<KEY>=<host>` is not local", To pass "run the
    service locally or in a test
    environment". A dev session answers `rabbit: result unverified <reason>`, or
-   for its own tests sends `step.blocked`.
+   for its own tests sends `ask.blocker`.
 3. No migration or seeder runs on any database without asking, and neither do
    tests that reset a database (for example Laravel's `RefreshDatabase`) unless
-   it is a test database of its own, not the one the app uses. Sign-in data only
-   from the repository's seed, fixture or example config files.
+   it is a test database of its own, not the one the app uses, or the workflow
+   allows it. Sign-in data: as `WF.environment` says, else the repository's
+   seed, fixture or example config files.
 4. **Compose.** A compose service the command needs may be started from the
    worktree, always as `docker compose -p rabbit-<key-lowercase>-<repo> up -d
    <service>`; a `container_name` that already runs belongs to the user: ask.
    Stop only that project's containers, never with `-v`.
+
+## Blockers
+
+A blocker is the only thing the user has to do: a browser sign-in, `sudo`, a
+stop condition in `WF.environment`, a service that is not local (an app whose
+start command is nowhere gets `ask.run-command` instead). Send `ask.blocker`;
+on its retry option run the step again. Not cleared: the rows that need it
+are `unverified` and the flow goes on.
+
+A command fails on authorization (an expired token, no credentials) and
+`WF.environment` names a check and a refresh: run the check, apply the refresh
+(a blocker when it needs the user), then run the command once more.

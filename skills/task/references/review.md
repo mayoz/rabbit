@@ -16,6 +16,7 @@ Repositories: <absolute path and base branch of each (for a brief, those it cite
 Impact: <absolute path of impact.md, for integration; else none>
 Tracker: <Site and Tools from the profile>
 Workflow review rules: <the instructions under the workflow file's `## Review`, or none>
+Language: <DOC_LANG>
 Lens: <below>
 ```
 
@@ -71,17 +72,34 @@ when there are any. A second round is appended to the same file. A dev session
 reviews its own diff and sends its proven findings and follow-ups in `rabbit:
 done`; write them to `diff-<repo>.md`.
 
-## Rounds, at most 2
+## Rounds
 
 1. One review round.
 2. Prove and sort the findings as above.
-3. Findings to fix: fix them (in the document, or for diff and integration in
-   the dev session of that repository), then run one short round with the same
+3. A `critical` or `major` finding fixed: run one short round with the same
    inputs plus `Verify these findings were fixed, and review only what the fixes
-   changed:` and the list.
-4. No finding to fix: the review is done; no further round.
-5. `critical` or `major` findings left after round 2: show them to the user and
-   ask.
+   changed:` and the list of those findings only. Fixed `minor` findings open
+   no round.
+4. No `critical` or `major` finding fixed: the review is done.
+5. At most 3 observer rounds per document in all. Findings left after that:
+   show them to the user and ask how to go on.
+
+## Changes
+
+A reviewed or approved document changes (a finding's fix after approval, the
+user's request, a change after dev sessions started). Sort the change first:
+
+| Change | Example | Review | New approval |
+| --- | --- | --- | --- |
+| Critical | design, acceptance criterion, contract, repository list, data model | one round on the changed sections (`Review only these changed sections:` and their headings) | yes |
+| Not critical | wording, a name, dropping an impossible test case, mechanical fit to the repository's rules | none | no |
+
+- Unsure counts as critical.
+- Not critical: append `No review needed: <reason>` (in `DOC_LANG`) to
+  `reviews/<kind>.md` and tell the user in one line.
+- A change the user asked for is approved by their request, even a critical
+  one; ask again only for a critical change Rabbit made itself.
+- No new approval needed: append the `Approved:` line right after `Changed:`.
 
 The document never mentions the review. Tell the user in one line how many
 rounds ran, the summary line and a link to the review file: that line is

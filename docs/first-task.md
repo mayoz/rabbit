@@ -22,7 +22,7 @@ started](getting-started.md).
 | Step | Who works | What you do |
 | --- | --- | --- |
 | 1. Brief | task session | Read `brief.md`. |
-| 2. Two questions | task session | Name the repositories, add a note or say `continue`. |
+| 2. Two questions | task session | Pick the repositories, add a note or pick "Nothing to add". |
 | 3. Spec | task session | Answer open questions, approve the spec. |
 | 4. Plan | task session | Approve the plan. |
 | 5. Dev sessions | one dev session per repository | Usually nothing. Answer if one asks. |
@@ -53,8 +53,9 @@ The message tells you the brief is ready.
    repositories the brief names that Rabbit finds in your repositories folder.
    If the issue's description has a line such as `Repo: web-app, api`, Rabbit
    takes the names from it and skips this question.
-2. **Anything you'd like to add?** Type `continue` if not. Otherwise add what
-   helps: other repositories to read, things to watch, decisions already made.
+2. **Anything you'd like to add?** Pick "Nothing to add" if not. Otherwise add
+   what helps: other repositories to read, things to watch, decisions already
+   made.
 
 Claude Desktop may ask you to allow access to each repository folder. Allow it.
 
@@ -78,7 +79,7 @@ Rabbit keeps every contract that other code reads backward compatible: response
 shapes, events, database columns, config. If the change must break one, the
 approval question says so and the break needs its own yes.
 
-Read `spec.md` and reply `yes` to approve, or say what to change.
+Read `spec.md` and pick "Approve", or say what to change.
 
 ## 4. Plan
 
@@ -86,16 +87,15 @@ The plan turns the spec into small steps, grouped by repository, each with its
 test. When one repository sends data that another reads, the plan adds
 a **contract test** in the reader.
 
-Read `plan.md` and reply `yes`. Plan approval is the go-ahead: Rabbit opens the
-dev sessions straight away.
+Read `plan.md` and pick "Approve". Plan approval is the go-ahead: Rabbit opens
+the dev sessions straight away.
 
 ## 5. Dev sessions
 
 The dev sessions implement the plan with `superpowers` when it is installed,
-else with Rabbit's own loop (`native`); the plan approval message says which,
-and answering `yes native` uses Rabbit's own loop instead. Your workflow file
-can decide instead. Then Rabbit opens one dev session per changing repository,
-nested under the task session.
+else with Rabbit's own loop (`native`); the plan approval message says which.
+Your workflow file can decide instead. Then Rabbit opens one dev session per
+changing repository, nested under the task session.
 
 Each dev session works in its own **worktree**, a second copy of the repository
 in `<repo>/.claude/worktrees/<key in lower case>` (for example `abc-1`), on its
@@ -136,8 +136,9 @@ asks whether to remove it.
 
 ## 7. Push
 
-Rabbit asks once for all repositories: open the pull requests **ready** for
-review (recommended) or as **draft**. If some rows did not pass, it shows them,
+Rabbit shows a table of the repositories with their branch and base, then asks
+once for all of them: open the pull requests **ready** for review (recommended)
+or as **draft**. If some rows did not pass, it shows them,
 asks whether to push anyway and recommends **draft**. Repositories not on GitHub
 get their branch pushed; you open the merge request yourself.
 
@@ -154,8 +155,10 @@ Drafts wait: tell Rabbit when they should be ready for review.
 
 Rabbit asks whether to follow CI. If yes, each dev session watches its own pull
 request. When a required check fails, Rabbit tells you which one and asks before
-it fixes it; a fix is pushed to the same branch. The last message repeats the
-table with CI results.
+it fixes it; a fix is pushed to the same branch. Checks your workflow names as
+waiting for a later step (QA, a test environment) are left out: they cannot
+pass before that step, so CI counts as passed without them and the table shows
+them as waiting. The last message repeats the table with CI results.
 
 ## 9. Finish the task
 
@@ -180,9 +183,9 @@ are merged:
 | You want to | Do this |
 | --- | --- |
 | Pause | Just stop. Open the task session later; Rabbit resumes from where it was. |
-| Change the spec or plan after approving it | Tell the task session what to change. It updates both and asks for approval again. |
+| Change the spec or plan after approving it | Tell the task session what to change. It updates both; your request is the approval, and it asks again only for a critical change it makes itself. |
 | Add a repository | Tell the task session. It reads it and updates the spec and plan with your approval. |
-| Run Integration again | Answer `no` to the push question, then ask the task session to run Integration again. |
+| Run Integration again | Pick "Don't push yet" at the push question, then ask the task session to run Integration again. |
 | Restart after a crash or `/compact` | Nothing. A hook reloads Rabbit's rules; if it did not, type `/rabbit:task` in the task session. |
 | Stop the task for good | Archive its sessions and remove its worktrees as in [step 9](#9-finish-the-task). |
 
@@ -190,11 +193,10 @@ are merged:
 
 | Question | When | A good answer |
 | --- | --- | --- |
-| Shall I run these (workflow instructions)? | Your workflow file asks Rabbit to act outside your machine, and it is new or changed. | `yes` if the list is what you expect. |
+| Shall I run these (workflow instructions)? | Your workflow file asks Rabbit to act outside your machine, and it is new or changed. | "Run them" if the list is what you expect. |
 | How do I start `<repo>` locally? | Rabbit can't find the start command. | The command, for example `npm run dev`. Add it to the repository's `CLAUDE.md` too. |
-| Shall I install dependencies and copy `.env`? | A worktree needs them to run. | `yes`. These files are never committed. |
-| How do I run the full test suite? | Rabbit can't find the command. | The command, or `skip` to leave it to CI. |
-| `<repo>` would break; add it? | A repository that doesn't change uses what the change touches. | Usually `yes`. |
+| How do I run the full test suite? | Rabbit can't find the command. | The command, or "Leave it to CI". |
+| `<repo>` would break; add it? | A repository that doesn't change uses what the change touches. | Usually "Add it". |
 | A value for `<environment>`? | Your workflow file has a placeholder. | The value. Rabbit remembers it for this task. |
 
 Claude Code may also ask permission before running a command, depending on your

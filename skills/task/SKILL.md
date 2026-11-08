@@ -104,8 +104,8 @@ and apply its Resume rule.
    the merge request yourself"), append `Repositories: <name (changes|read)>, …`
    to `jira.md`, then `mcp__ccd_directory__request_directory` for each
    repository.
-6. Send `ask.note` and end the turn. The reply is `NOTE` (`continue` in any
-   language or `no` = none). Repositories it asks you to read are **read**
+6. Send `ask.note` and end the turn. The reply is `NOTE` (its "nothing to
+   add" option = none). Repositories it asks you to read are **read**
    unless it says they change.
    Add what `NOTE` changes to `brief.md`. If it has no `## Where to start` yet,
    add it now (brief-format.md) and run review.md on it again with these
@@ -167,27 +167,26 @@ Method as for the spec, with `superpowers:writing-plans`:
 Run `references/review.md` (Kind `plan`), then send `ask.plan-approval` and wait
 (`{{execute_line}}` from step 5.1; `{{branches}}`: the names step 5.2's rule
 gives, no worktree yet). A plan change that changes the spec updates
-`spec.md` too and asks for both again: they always agree.
+`spec.md` too and follows **Approval** below: they always agree.
 On approval append `Approved: plan <date>` to `jira.md`.
 
-**Approval.** Before appending an `Approved:` line, if the document changed
-after its review (its modified time is later), run review.md on it again first.
-A change to an approved spec or plan: append `Changed: <spec|plan> <date>`,
-update both documents, review and ask again; after the new approval send
-`rabbit: plan changed <task ids>` to each dev session whose tasks changed.
+**Approval.** A document changed after its review or approval: follow
+review.md **Changes**. A change to an approved spec or plan: append `Changed:
+<spec|plan> <date>`, update both documents, and once approved (again, when
+needed) send `rabbit: plan changed <task ids>` to each dev session whose tasks
+changed.
 
 ## 5. Dev sessions (stage Execute)
 
 Plan approval is the go-ahead; do not wait for "start".
-1. Execute method: as `WF.stages.Execute` says; else the one the plan approval
-   named (`yes native`); else `superpowers` when a `superpowers:executing-plans`
-   skill exists, `native` otherwise. `{{execute_line}}` names that default and
-   the other choice, or is empty when the workflow decides. Append `Execute:
-   <method>` to `jira.md`. This session reads the Execute instructions only to
-   choose the method; the dev sessions apply them.
+1. Execute method: as `WF.stages.Execute` says; else `superpowers` when a
+   `superpowers:executing-plans` skill exists, `native` otherwise.
+   `{{execute_line}}` names it, or is empty when the workflow decides. Append
+   `Execute: <method>` to `jira.md`. This session reads the Execute
+   instructions only to choose the method; the dev sessions apply them.
 2. For each **changes** repository with tasks in `plan.md`: base as rules.md
-   says; branch from its `CLAUDE.md` or `.claude/rules/`, else one in the style
-   of its recent branches (`git -C <repo> for-each-ref
+   says; branch as `WF.stages.Plan`, its `CLAUDE.md` or `.claude/rules/` say,
+   else one in the style of its recent branches (`git -C <repo> for-each-ref
    --sort=-committerdate --count=20 --format='%(refname:short)'
    refs/remotes/origin`) containing `KEY`, else `<key-lowercase>`;
    `{{branches}}` lists them, and the plan approval approves them. Worktree
@@ -219,7 +218,8 @@ are approved.
 
 Answer the dev sessions' messages (`SendMessage` to their `local_…` id). Each
 sends `rabbit: done <commits>` when its part is implemented and self-reviewed;
-on the first one per repository append `Done: <repo> <date>` to `jira.md`. Write
+on the first one per repository append `Done: <repo> <date>` to `jira.md`
+(also when a subagent wrote the code). Write
 the findings and follow-ups any `rabbit: done` carries to
 `reviews/diff-<repo>.md` (`references/review.md`, Review file).
 `rabbit: blocked <reason>` or a question it relays: tell the user, and send the
@@ -227,7 +227,7 @@ answer back as `rabbit: answer <text>`; `rabbit: answered <question>`: the user
 answered there, drop it.
 `rabbit: placeholder <name> <value>`: append `Answer: <name> <value>`. `rabbit:
 plan wrong <path:line> <finding>`: change spec and plan as **Approval** says.
-All done: go to step 7.
+All **changes** repositories `Done:`: step 7, in the same turn.
 
 ## 7. Integration (stage Integration)
 

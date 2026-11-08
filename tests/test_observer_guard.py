@@ -92,7 +92,7 @@ class ObserverGuardTest(unittest.TestCase):
                      "mcp__kube__exec_pod_command", "mcp__host__clean_up_worktrees",
                      "mcp__chrome__javascript_tool", "mcp__dd__execute_code",
                      "mcp__x__find_and_delete", "mcp__x__get_or_create_x", "mcp__mail__reply",
-                     "mcp__vision__vision_kill_environment", "mcp__ccd_pr__bind_pr",
+                     "mcp__env__kill_environment", "mcp__ccd_pr__bind_pr",
                      "mcp__pg__query", "mcp__web__fetch", "mcp__x__find_and_replace",
                      "mcp__x__read_and_save", "mcp__x__get_and_lock_issue"]:
             self.assertTrue(self.denied(run({"agent_type": "rabbit:observer",

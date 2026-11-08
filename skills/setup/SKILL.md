@@ -65,15 +65,16 @@ can't run, read the file instead.
 - Exit 3 or unreadable: ask `workflow` again with `setup.workflow-missing` as
   its reason. Never write the profile with a path that can't be read.
 - Otherwise send `setup.workflow-read` with each part that has instructions,
-  named as its heading as written (for example `Brief`, `Plan:After`, `Push`).
+  named as its heading (`Environment` when `environment` is not empty,
+  `Plan:After`).
   If `unknown` is not empty, send `setup.workflow-unknown` with those headings;
   if `placeholders` is not empty, send `setup.workflow-placeholders` with them.
 
 ## 3. Basics
 
 Ask `workspace`, `repositories`, `chat-language`, `doc-language` in turn.
-- Workspace folder missing: send `setup.folder-create`; on yes, `mkdir -p` it;
-  else ask again.
+- Workspace folder missing: ask `setup.folder-create` with `AskUserQuestion`;
+  on Create it, `mkdir -p` it; else ask again.
 - Repositories folder: count clones with
   `find "<dir>" -maxdepth 3 -name .git | wc -l`; send `setup.repos-found` and
   continue, or `setup.repos-none` and ask again (unless the user gave this

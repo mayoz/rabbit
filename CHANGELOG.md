@@ -4,6 +4,51 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/).
 
+## [0.1.0] - 2026-11-08
+
+### Added
+- A workflow `## Environment` heading: how to set up and run apps and tests,
+  where sign-in data comes from, how to check and refresh credentials, and
+  when to stop. Task and dev sessions read it whenever they run something.
+- An environment log in `integration.md`, and a "Done, try again" question for
+  the few things only you can do (a browser sign-in, `sudo`, a closed test
+  environment).
+- Word targets for the brief, the spec and the plan.
+- Hook reminders: Integration that has not run yet, and questions still
+  waiting for an answer; the language reminder also follows subagent reports.
+  A status line an answer writes (`Approved:`, `Cleanup:`, `Push:`, `CI:`)
+  counts as that answer.
+- The push question shows each repository's branch and base in a table.
+- Checks that wait for a later step: name them under `## Push` and CI is
+  followed without them, so `## Push:After` (for example a QA hand-off) can
+  run. `ci_wait.py` watches the other checks.
+- Dev sessions ask for blockers with the same "Done, try again" question.
+
+### Changed
+- Every closed question has buttons, the recommended answer first, after a
+  short box saying what is needed, why, and what each answer does. A question
+  interrupted by another request is asked again.
+- Approvals stay one at a time, and reviews are lighter: one round, a second
+  only for fixed critical or major findings, at most three per document. A
+  later change is sorted first; only a critical change gets a review and a new
+  approval.
+- Worktree setup, a setting changed for one test, and new test data named with
+  the task key no longer ask. After Integration one question asks whether to
+  keep or remove the test data.
+- Integration always runs after the last repository is done, and there is no
+  push question before it.
+- A change you ask for after an approval counts as approved; Rabbit asks again
+  only for a critical change it makes itself.
+- The setup questions use buttons too.
+- The observer writes its findings in the document language.
+- `impact.md` and the spec list only surfaces that cross repositories; with
+  none they say so in one line.
+- Shorter Scenarios: cases with the same result share one row.
+
+### Removed
+- The `continue` and `yes native` answers, and the question before installing
+  a worktree's dependencies.
+
 ## [0.0.2] - 2026-11-08
 
 ### Changed

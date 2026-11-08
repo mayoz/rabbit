@@ -25,6 +25,11 @@ I stopped at **{{step}}**: {{problem}}
 I ran: `{{command}}`
 How should we go on?
 
+## ask.blocker
+I can't go on with {{step}} without you: {{problem}}
+{{what_to_do}}
+Options: Done, try again (Recommended) · Skip it (its checks stay unverified)
+
 ## ask.instruction-failed
 I couldn't apply this instruction from your workflow file ({{stage}}):
 "{{instruction}}"
@@ -36,8 +41,9 @@ Your workflow file needs a value for `{{placeholder}}` ({{stage}}:
 What should it be?
 
 ## ask.execute
-How should I implement the plan: `superpowers` (`superpowers:executing-plans`)
-or `native` (Rabbit's own loop, one commit per plan step)?
+How should I implement the plan?
+Options: superpowers (`superpowers:executing-plans`) (Recommended) · native
+(Rabbit's own loop, one commit per plan step)
 
 ## done
 All {{repo}} steps are done and I reviewed the diff:
@@ -45,11 +51,6 @@ All {{repo}} steps are done and I reviewed the diff:
 Tests run: {{tests}}
 Review: {{review_summary}}
 I told the task session. Nothing is pushed; the task session asks you first.
-
-## ask.run-setup
-To run tests in `{{worktree}}` I need to install its dependencies
-(`{{install}}`) and copy `.env` from `{{main_checkout}}`. Shall I? (`yes` /
-`no`)
 
 ## pushed
 Pushed `{{branch}}` and opened {{pr}} ({{status}}).
@@ -69,4 +70,5 @@ since you last approved it:
 
 {{instructions}}
 
-Shall I run these when their moment comes? A no skips them for this task.
+Shall I run these when their moment comes?
+Options: Run them (Recommended) · Skip them for this task

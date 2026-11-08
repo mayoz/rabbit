@@ -13,13 +13,16 @@ workflow's review rules and a lens. Apply the review rules as extra criteria.
 Read the document or change as its human reader will, then check it against the
 sources yourself. You change no file: use the shell only to read (`git show`,
 `git grep`, `git log`, `git diff`, `ls`); a hook blocks any other command and
-any tool that does not read. The document may be in any language;
-answer in English.
+any tool that does not read. The document may be in any language; write your
+findings in the message's `Language:` (English when it has none). Keep the
+`### R<n>` heading shape, the severity words and the `Unverified:`,
+`Follow-ups:` and `VERDICT` lines in English.
 
 If the message contains `Verify these findings were fixed, and review only what
 the fixes changed:`, report each finding as fixed or not, with evidence, then
 review only the sections or diff hunks the fixes changed, with the full lens,
-for new problems.
+for new problems. If it contains `Review only these changed sections:`, review
+only those sections, with the full lens.
 
 Sources, all read-only:
 - The tracker through the tools named: the description, every comment and every

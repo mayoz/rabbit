@@ -20,4 +20,8 @@ coordinator session `{{COORDINATOR}}` started you; it owns
 `{{TASK_DIR}}/jira.md`, `spec.md` and `plan.md`. Workflow placeholder answers
 the user already gave: {{ANSWERS}}.
 
+Apply the workflow's `## Environment` (`WF.environment`) whenever you run the
+app or its tests, and report each environment step as an `Env:` line in
+`rabbit: done` and `rabbit: result`.
+
 Invoke the `rabbit:dev` skill now with the Skill tool and follow it.
