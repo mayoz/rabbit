@@ -1,7 +1,8 @@
 # plan.md (built-in method)
 
 Write `plan.md` in `DOC_LANG` from the approved spec, following the writing
-rules 1–5 of `spec-guide.md`. Do not repeat the spec: point to its section.
+rules 1–5 of `spec-guide.md`. Do not repeat the spec or copy its sketches:
+link to its section.
 Tasks grouped by repository; note the order between repositories where one
 depends on another (ask when the merge or deploy order is not stated anywhere).
 

@@ -28,16 +28,17 @@ Sections, headings translated:
    sketch in the repository's own style (signatures, changed lines, payload
    JSON, SQL, route) next to the existing code it follows (`path:line`), plus
    the names and assertions of the tests that prove it. Sketches, not the
-   finished code.
+   finished code: signatures and changed lines, never a full body.
 5. `## Impact and contracts`: every producer → consumer pair from `impact.md`,
    with the exact contract (payload, endpoint, field, table) and whether the
    consumer changes. For a consumer that does not change: how the change stays
-   compatible (rule 6), before and after.
-   With one repository and no outside consumer, one line saying so.
-6. `## Scenarios`: for every acceptance criterion the main flow, edge cases
-   (empty, null, zero, very large, duplicate), invalid input, permissions, data
-   written before the change, and a failure of every service the change calls;
-   one row each:
+   compatible (rule 6), before and after. Only pairs across repositories;
+   none: the one line "No cross-repository impact." in `DOC_LANG`.
+6. `## Scenarios`: for every acceptance criterion the main flow and each case
+   that behaves differently from it. Consider edge cases (empty, null, zero,
+   very large, duplicate), invalid input, permissions, data written before the
+   change and a failure of every service the change calls; cases with the same
+   result share one row:
 
 ```markdown
 | # | Scenario | Criterion | Expected |

@@ -119,6 +119,18 @@ Before writing each statement ask: *Is it proven? If a developer does exactly
 this, does it work? Does this document need it, here?* Rewrite or drop whatever
 fails one.
 
+Word targets, code blocks and tables included:
+
+| Document | 1 repository | Each further repository |
+| --- | --- | --- |
+| brief | 300 | +0 |
+| spec | 900 | +400 |
+| plan | 700 | +300 |
+
+Count with `wc -w` once the document is written. Over the target: before the
+review, drop what the reader does not need. When the needed content is longer,
+the document stays long; write no explanation for it.
+
 ## Repository list
 
 `jira.md` keeps one list with a role per repository: **changes** (code changes
