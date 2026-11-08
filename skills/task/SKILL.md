@@ -170,11 +170,11 @@ gives, no worktree yet). A plan change that changes the spec updates
 `spec.md` too and asks for both again: they always agree.
 On approval append `Approved: plan <date>` to `jira.md`.
 
-**Approval.** Before appending an `Approved:` line, if the document changed
-after its review (its modified time is later), run review.md on it again first.
-A change to an approved spec or plan: append `Changed: <spec|plan> <date>`,
-update both documents, review and ask again; after the new approval send
-`rabbit: plan changed <task ids>` to each dev session whose tasks changed.
+**Approval.** A document changed after its review or approval: follow
+review.md **Changes**. A change to an approved spec or plan: append `Changed:
+<spec|plan> <date>`, update both documents, and once approved (again, when
+needed) send `rabbit: plan changed <task ids>` to each dev session whose tasks
+changed.
 
 ## 5. Dev sessions (stage Execute)
 
