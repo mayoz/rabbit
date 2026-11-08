@@ -60,4 +60,4 @@ Read `spec.md` and `plan.md` again, implement the changed tasks as §2 says, the
 Apply rules.md's **Running the app or its tests**, run it (a command that may
 take over two minutes with `run_in_background: true`, reading its output when it
 exits) and answer `rabbit: result <passed|failed|unverified> <last lines or
-reason>`.
+reason>`, followed by its `Env:` lines.

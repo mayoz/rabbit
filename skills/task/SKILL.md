@@ -167,7 +167,7 @@ Method as for the spec, with `superpowers:writing-plans`:
 Run `references/review.md` (Kind `plan`), then send `ask.plan-approval` and wait
 (`{{execute_line}}` from step 5.1; `{{branches}}`: the names step 5.2's rule
 gives, no worktree yet). A plan change that changes the spec updates
-`spec.md` too and asks for both again: they always agree.
+`spec.md` too and follows **Approval** below: they always agree.
 On approval append `Approved: plan <date>` to `jira.md`.
 
 **Approval.** A document changed after its review or approval: follow
@@ -185,8 +185,8 @@ Plan approval is the go-ahead; do not wait for "start".
    `Execute: <method>` to `jira.md`. This session reads the Execute
    instructions only to choose the method; the dev sessions apply them.
 2. For each **changes** repository with tasks in `plan.md`: base as rules.md
-   says; branch from its `CLAUDE.md` or `.claude/rules/`, else one in the style
-   of its recent branches (`git -C <repo> for-each-ref
+   says; branch as `WF.stages.Plan`, its `CLAUDE.md` or `.claude/rules/` say,
+   else one in the style of its recent branches (`git -C <repo> for-each-ref
    --sort=-committerdate --count=20 --format='%(refname:short)'
    refs/remotes/origin`) containing `KEY`, else `<key-lowercase>`;
    `{{branches}}` lists them, and the plan approval approves them. Worktree

@@ -23,7 +23,8 @@ kind counts.
 
 ## Resume
 
-First ask again every `Asked:` line without its `Answered:` (rules.md
+First ask again every `Asked:` line without a later `Answered:` or the
+status line its answer writes (`Approved:`, `Cleanup:`, `Push:`, …; rules.md
 Questions). Then continue at the first step whose output is missing:
 - no `brief.md` → 1; no `Repositories:` → 1.3 (with `JIRA_REPOS`, or ask again);
   no `Note:` → 1.6;

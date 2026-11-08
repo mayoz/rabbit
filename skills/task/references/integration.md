@@ -43,9 +43,9 @@ the `Env:` lines the dev sessions send to its environment log.
    point) and compose services. Unclear: ask.
 5. **Setup and safety.** For each changing repository, in its worktree, apply
    rules.md's **Running the app or its tests** (setup first, then safety on the
-   files the process would load) before starting anything. No sign-in data in
-   seed, fixture or example config files: the rows that need it are
-   `unverified`.
+   files the process would load) before starting anything. No sign-in source
+   in `WF.environment` or in seed, fixture or example config files: the rows
+   that need it are `unverified`.
 6. **Run it.**
    - The start command comes from its `CLAUDE.md`, then README, then compose,
      then package scripts. None: send `ask.run-command` once and suggest adding

@@ -180,7 +180,7 @@ are merged:
 | You want to | Do this |
 | --- | --- |
 | Pause | Just stop. Open the task session later; Rabbit resumes from where it was. |
-| Change the spec or plan after approving it | Tell the task session what to change. It updates both and asks for approval again. |
+| Change the spec or plan after approving it | Tell the task session what to change. It updates both; your request is the approval, and it asks again only for a critical change it makes itself. |
 | Add a repository | Tell the task session. It reads it and updates the spec and plan with your approval. |
 | Run Integration again | Pick "Don't push yet" at the push question, then ask the task session to run Integration again. |
 | Restart after a crash or `/compact` | Nothing. A hook reloads Rabbit's rules; if it did not, type `/rabbit:task` in the task session. |

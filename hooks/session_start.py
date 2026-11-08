@@ -22,7 +22,17 @@ DEV = ("This is the Rabbit dev session for {key} in {repo} ({cwd}), task folder 
        "as written.")
 
 
-INTEGRATION = "Integration has not run; run it before anything about push."
+INTEGRATION = "No `Integration:` line yet; finish Integration before anything about push."
+DATE = re.compile(r"\d{4}-\d{2}-\d{2}$")
+ANSWERED_BY = {
+    "ask.repos": ("Repositories:",), "ask.note": ("Note:",),
+    "ask.spec-approval": ("Approved: spec", "Approved: breaking"),
+    "ask.breaking": ("Approved: breaking", "Changed: spec"),
+    "ask.plan-approval": ("Approved: plan",), "ask.spec-plan-approval": ("Approved: plan",),
+    "ask.cleanup": ("Cleanup: removed", "Cleanup: kept"),
+    "ask.push": ("Push:",), "ask.push-anyway": ("Push:",), "ask.push-manual": ("Push:",),
+    "ask.ci": ("CI:",),
+}
 CHANGES = re.compile(r"([^\s,(]+)\s*\(\s*changes\s*\)")
 
 
@@ -43,10 +53,18 @@ def reminders(jira):
     asked, answered = [], set()
     for line in lines:
         f = line.split()
-        if len(f) >= 3 and f[0] == "Asked:" and (f[1], f[2]) not in asked:
-            asked.append((f[1], f[2]))
-        elif len(f) >= 3 and f[0] == "Answered:":
-            answered.add((f[1], f[2]))
+        if len(f) < 2 or f[0] not in ("Asked:", "Answered:"):
+            for key, topic in asked:
+                if line.startswith(ANSWERED_BY.get(key, ("\0",))):
+                    answered.add((key, topic))
+            continue
+        q = (f[1], "task" if len(f) < 3 or DATE.match(f[2]) else f[2])
+        if f[0] == "Answered:":
+            answered.add(q)
+        else:
+            answered.discard(q)
+            if q not in asked:
+                asked.append(q)
     open_ = [f"{k} {t}" for k, t in asked if (k, t) not in answered]
     if open_:
         out.append(f"Unanswered questions: {', '.join(open_)}. "

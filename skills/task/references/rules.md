@@ -141,7 +141,7 @@ step. On every change:
 1. Adding a repository: `mcp__ccd_directory__request_directory` on it; read its
    `CLAUDE.md` and the relevant `.claude/rules/`.
 2. Update `jira.md`. After spec or plan approval, also update their repository
-   sections and tasks, show what changed and ask for approval again.
+   sections and tasks, show what changed and follow review.md **Changes**.
 3. Removing a repository after dev sessions started: list its worktree, branch
    and session and ask before removing each. Never delete a branch or commits
    yourself.
@@ -175,7 +175,7 @@ order:
    it is `unverified`, Reason "`<KEY>=<host>` is not local", To pass "run the
    service locally or in a test
    environment". A dev session answers `rabbit: result unverified <reason>`, or
-   for its own tests sends `step.blocked`.
+   for its own tests sends `ask.blocker`.
 3. No migration or seeder runs on any database without asking, and neither do
    tests that reset a database (for example Laravel's `RefreshDatabase`) unless
    it is a test database of its own, not the one the app uses, or the workflow
@@ -189,10 +189,10 @@ order:
 ## Blockers
 
 A blocker is the only thing the user has to do: a browser sign-in, `sudo`, a
-stop condition in `WF.environment`, a service that is not local, an app whose
-start command is nowhere. Send `ask.blocker`; on its retry option run the step
-again. Not cleared: the rows that need it are `unverified` and the flow goes
-on.
+stop condition in `WF.environment`, a service that is not local (an app whose
+start command is nowhere gets `ask.run-command` instead). Send `ask.blocker`;
+on its retry option run the step again. Not cleared: the rows that need it
+are `unverified` and the flow goes on.
 
 A command fails on authorization (an expired token, no credentials) and
 `WF.environment` names a check and a refresh: run the check, apply the refresh

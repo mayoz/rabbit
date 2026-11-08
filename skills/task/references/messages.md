@@ -48,8 +48,9 @@ What should it be?
 
 ## ask.repos
 **Which repositories do we need to work in for {{key}}?**
-Options (multiple choice): up to 4 repositories `brief.md` names, for example
-{{examples}}; with fewer than 2, add "Another repository". Other for the rest.
+Options (multiple choice): up to 4 repositories `brief.md` names; Other for the
+rest. With fewer than 2, no buttons: ask in plain text, for example
+{{examples}}. `{{examples}}` is never an option.
 
 ## ask.repo-missing
 I can't find {{names}} in `{{folder}}` (I looked there and one folder deeper).
@@ -82,7 +83,7 @@ This spec breaks existing consumers:
 {{breaks}}
 
 Do you accept these breaks?
-Options: Accept · Change the spec to avoid them
+Options: Change the spec to avoid them (Recommended) · Accept
 
 ## ask.plan-approval
 The plan is ready. {{review_line}}

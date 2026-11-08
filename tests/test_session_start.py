@@ -191,18 +191,36 @@ class SessionStartTest(unittest.TestCase):
                 "## Status\nRepositories: api (changes)\nDone: api 2026-11-08\n")
         text = self.context(self.run_hook(self.task("SP_23", "ABC-1", jira),
                                           event="UserPromptSubmit"))
-        self.assertIn("Integration has not run", text)
+        self.assertIn("No `Integration:` line yet", text)
         self.assertNotIn("ask.fake", text)
+
+    def test_status_line_answers_question(self):
+        text = self.prompt("Asked: ask.spec-approval spec 2026-11-08\n"
+                           "Approved: spec 2026-11-08\n"
+                           "Asked: ask.cleanup api 2026-11-08\nCleanup: asked 2026-11-08\n"
+                           "Asked: ask.push task 2026-11-08\n")
+        self.assertNotIn("ask.spec-approval", text)
+        self.assertIn("ask.cleanup api", text)
+        self.assertIn("ask.push task", text)
+
+    def test_approval_before_ask_does_not_answer_it(self):
+        text = self.prompt("Approved: spec 2026-11-08\nChanged: spec 2026-11-09\n"
+                           "Asked: ask.spec-approval spec 2026-11-09\n")
+        self.assertIn("ask.spec-approval spec", text)
+
+    def test_missing_topic_defaults_to_task(self):
+        text = self.prompt("Asked: ask.note 2026-11-08\nAnswered: ask.note 2026-11-09\n")
+        self.assertNotIn("Unanswered", text)
 
     def test_no_integration_reminder_while_cleanup_asked(self):
         text = self.prompt("Repositories: api (changes)\nDone: api 2026-11-08\n"
                            "Cleanup: asked 2026-11-08\n")
-        self.assertNotIn("Integration has not run", text)
+        self.assertNotIn("No `Integration:` line yet", text)
 
     def test_reminds_integration_when_all_done(self):
         text = self.prompt("Repositories: api (changes), web (changes), lib (read)\n"
                            "Done: api 2026-11-08\nDone: web 2026-11-08\n")
-        self.assertIn("Integration has not run; run it before anything about push.", text)
+        self.assertIn("No `Integration:` line yet; finish Integration before anything about push.", text)
         self.assertIn("in Turkish", text)
 
     def test_no_integration_reminder_when_ran_or_pending(self):
@@ -221,7 +239,7 @@ class SessionStartTest(unittest.TestCase):
     def test_repositories_with_backticks_and_spaces(self):
         text = self.prompt("Repositories: `api` ( changes ),  `web-app (changes)`\n"
                            "Done: `api` 2026-11-08\nDone: web-app 2026-11-08\n")
-        self.assertIn("Integration has not run", text)
+        self.assertIn("No `Integration:` line yet", text)
 
     def test_unanswered_question_per_topic(self):
         text = self.prompt("Asked: ask.cleanup api 2026-11-08\n"

@@ -95,7 +95,7 @@ top:
      `-A`), with the step's commit message. Never skip hooks or signing; a hook
      that rewrites files:
      stage those same paths again and commit again.
-  4. Send `step.done` in one line and go on to the next step.
+  4. Send `step.done` in one line; then the next step.
 
 A test that will not pass, or a step that cannot be done as written: stop and
 send `step.blocked` with what you ran and what happened. The user may say to go
@@ -122,8 +122,8 @@ Send `done` with the commit list (`git log --oneline origin/<BASE>..HEAD`, local
 `<BASE>` without a remote) and the tests you ran, then `SendMessage` to
 `COORDINATOR`: `rabbit: done
 <the commit list>`, followed by the proven findings as `### R<n>` blocks with
-their `**Status:**`, the summary line, any `Follow-ups:` and any `Unverified:`.
-Wait.
+their `**Status:**`, the summary line, any `Follow-ups:`, `Unverified:` and
+`Env:` lines. Wait.
 
 ## 6. Messages from the coordinator
 

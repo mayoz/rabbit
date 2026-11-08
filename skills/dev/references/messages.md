@@ -25,6 +25,11 @@ I stopped at **{{step}}**: {{problem}}
 I ran: `{{command}}`
 How should we go on?
 
+## ask.blocker
+I can't go on with {{step}} without you: {{problem}}
+{{what_to_do}}
+Options: Done, try again (Recommended) · Skip it (its checks stay unverified)
+
 ## ask.instruction-failed
 I couldn't apply this instruction from your workflow file ({{stage}}):
 "{{instruction}}"
@@ -37,8 +42,8 @@ What should it be?
 
 ## ask.execute
 How should I implement the plan?
-Options: superpowers (`superpowers:executing-plans`) · native (Rabbit's own
-loop, one commit per plan step)
+Options: superpowers (`superpowers:executing-plans`) (Recommended) · native
+(Rabbit's own loop, one commit per plan step)
 
 ## done
 All {{repo}} steps are done and I reviewed the diff:

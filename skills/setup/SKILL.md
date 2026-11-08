@@ -65,7 +65,8 @@ can't run, read the file instead.
 - Exit 3 or unreadable: ask `workflow` again with `setup.workflow-missing` as
   its reason. Never write the profile with a path that can't be read.
 - Otherwise send `setup.workflow-read` with each part that has instructions,
-  named as its heading as written (for example `Brief`, `Plan:After`, `Push`).
+  named as its heading (`Environment` when `environment` is not empty,
+  `Plan:After`).
   If `unknown` is not empty, send `setup.workflow-unknown` with those headings;
   if `placeholders` is not empty, send `setup.workflow-placeholders` with them.
 
