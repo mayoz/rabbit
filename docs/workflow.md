@@ -38,12 +38,37 @@ applies from the next session on. Start from
 | `## Brief` | while the brief is written | the issue and the tools in the session |
 | `## Spec` | while the spec is written | superpowers when installed, else Rabbit's own guide |
 | `## Plan` | while the plan is written | superpowers when installed, else Rabbit's own guide |
-| `## Execute` | while a dev session implements the plan | superpowers when installed, else native; `yes native` at plan approval picks native |
+| `## Execute` | while a dev session implements the plan | superpowers when installed, else native |
 | `## Review` | in every blind review (adds criteria) | the blind review only |
 | `## Integration` | while the changed repositories are checked together | impact check, joint review, contract tests, each repository's full test suite once, every spec scenario tried in the running apps |
 | `## Push` | while branches are pushed and pull requests opened | push and open pull requests, ready or draft as you answer |
 
 `## Spec and Plan` is a shorthand: its instructions apply to both stages.
+
+## Environment
+
+`## Environment` is not a stage and takes no `:Before` or `:After`. It holds
+what Rabbit needs to run your apps and tests: how to set up a worktree, where
+sign-in data comes from, how to check and refresh credentials, how to make test
+data, and when to stop (for example "the test environment is closed at
+weekends"). The task session reads it at every step that runs something, and
+every dev session reads it too. A stop condition there is a blocker: Rabbit asks
+you with a "Done, try again" button and, if it stays, marks the checks that
+needed it `unverified` and goes on.
+
+With it, Rabbit sets up the environment, changes a setting for a test and
+restores it, and creates new test data named with the task key without asking.
+After Integration it asks once whether to keep or remove that test data. Every
+step goes to the environment log in `integration.md`.
+
+## Questions
+
+Every yes/no or choice question comes with buttons, the recommended answer
+first, after a short box that says what is needed, why, and what each answer
+does. Approvals still come one at a time: no plan before the spec is approved,
+no code before the plan is approved. If you answer something else, Rabbit does
+that and then asks the open question again; "we won't do it" counts as an
+answer.
 
 ## Before and after a stage
 
@@ -124,5 +149,4 @@ Two ways to implement a plan are supported:
 - `native`: Rabbit's own loop, one test and one commit per plan step.
 
 Name one under `## Execute`, or leave the heading out: Rabbit uses superpowers
-when it is installed, else native, and you can answer the plan approval with
-`yes native`.
+when it is installed, else native.

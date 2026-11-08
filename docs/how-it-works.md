@@ -114,8 +114,10 @@ the work and its sources, so it can't be talked into agreeing.
   proven** in the review file, with the reason.
 - Critical and major findings are fixed; minor ones when the fix is small. A
   critical or major one with no fix in scope comes to you.
-- A second round checks the fixes and reviews what they changed. There are at
-  most two rounds.
+- A second round runs only when a critical or major finding was fixed, and
+  checks only those fixes. A later change is sorted first: a critical one gets
+  one round on what changed, any other none. A document gets at most three
+  rounds.
 
 The observer has no tools to write files. A hook also checks every tool it calls
 and lets through only reading tools (Read, Grep, Glob), shell commands made only
@@ -151,7 +153,7 @@ Before starting an app or a test, Rabbit checks every service address it would
 use, such as the database, cache, queue, mail or an external API. Each must be
 on your machine (`localhost`, `127.0.0.1` or a compose service) and answering.
 Otherwise that run is `unverified`. If a worktree needs dependencies installed
-or a `.env` file, Rabbit asks first, and never commits them.
+or a `.env` file, Rabbit sets them up without asking, and never commits them.
 
 ## Surviving a restart
 

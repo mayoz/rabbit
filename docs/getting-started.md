@@ -78,8 +78,8 @@ in a `Repo:` line):
 
 1. **Which repositories do we need to work in?** Type their names, for example
    `web-app, api`. Rabbit finds them in your repositories folder.
-2. **Is there anything you'd like to add?** Type `continue`, or add hints such
-   as other repositories to read or decisions already made.
+2. **Is there anything you'd like to add?** Pick "Nothing to add", or add
+   hints such as other repositories to read or decisions already made.
 
 Claude Desktop may ask you to allow access to each repository folder. Allow it;
 Rabbit only reads there until you approve a plan.

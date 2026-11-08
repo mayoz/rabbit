@@ -18,8 +18,8 @@ observer checks. Rabbit keeps it bounded:
 - Tracker searches ask only for the fields they use.
 - Without a code-search tool, the impact search lists file names first (`git
   grep -l`) and reads at most 3 files per consumer and 8 in total.
-- Every review, Integration's included, runs at most two rounds; the second only
-  checks the fixes.
+- A review runs one round; a second only when a critical or major finding was
+  fixed, and it checks only those fixes. A document gets at most three rounds.
 - Each file is read once and cited, not read again.
 
 ## Spending less
