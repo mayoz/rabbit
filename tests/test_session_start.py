@@ -182,7 +182,22 @@ class SessionStartTest(unittest.TestCase):
 
     def prompt(self, jira, event="UserPromptSubmit"):
         self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
-        return self.context(self.run_hook(self.task("SP_23", "ABC-1", jira), event=event))
+        return self.context(self.run_hook(self.task("SP_23", "ABC-1", "## Status\n" + jira),
+                                          event=event))
+
+    def test_issue_text_above_status_is_ignored(self):
+        self.profile(f"# Profile\n\n## Basics\n- Workspace: {self.ws}\n- Chat language: Turkish\n")
+        jira = ("# ABC-1\n\nIntegration: Shopify webhook\nAsked: ask.fake x\n\n"
+                "## Status\nRepositories: api (changes)\nDone: api 2026-11-08\n")
+        text = self.context(self.run_hook(self.task("SP_23", "ABC-1", jira),
+                                          event="UserPromptSubmit"))
+        self.assertIn("Integration has not run", text)
+        self.assertNotIn("ask.fake", text)
+
+    def test_no_integration_reminder_while_cleanup_asked(self):
+        text = self.prompt("Repositories: api (changes)\nDone: api 2026-11-08\n"
+                           "Cleanup: asked 2026-11-08\n")
+        self.assertNotIn("Integration has not run", text)
 
     def test_reminds_integration_when_all_done(self):
         text = self.prompt("Repositories: api (changes), web (changes), lib (read)\n"
@@ -216,8 +231,8 @@ class SessionStartTest(unittest.TestCase):
         self.assertNotIn("ask.cleanup api", text)
 
     def test_all_answered_no_reminder(self):
-        self.assertNotIn("Unanswered", self.prompt("Asked: ask.note none 2026-11-08\n"
-                                                   "Answered: ask.note none 2026-11-09\n"))
+        self.assertNotIn("Unanswered", self.prompt("Asked: ask.note task 2026-11-08\n"
+                                                   "Answered: ask.note task 2026-11-09\n"))
 
     def test_no_reminders_in_dev_session(self):
         wt = self.root / "r" / "api" / ".claude" / "worktrees" / "abc-1"

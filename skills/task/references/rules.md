@@ -77,7 +77,9 @@ design that fully meets the task.
   recommended one first with "(Recommended)" translated. The tool takes at most
   4 questions per call and 2–4 options per question and adds "Other" for free
   text; ask more in calls one after another. A question that needs free text
-  and has no `Options:` line stays plain text.
+  and has no `Options:` line stays plain text. An option that offers to type
+  ("I'll write a note"): its answer is the user's next message; ask for it
+  in one plain line.
 - **An info box comes right before each question**, its labels in `LANG`; an
   approval question's document links go in it:
 

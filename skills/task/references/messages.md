@@ -49,7 +49,7 @@ What should it be?
 ## ask.repos
 **Which repositories do we need to work in for {{key}}?**
 Options (multiple choice): up to 4 repositories `brief.md` names, for example
-{{examples}}; Other for the rest.
+{{examples}}; with fewer than 2, add "Another repository". Other for the rest.
 
 ## ask.repo-missing
 I can't find {{names}} in `{{folder}}` (I looked there and one folder deeper).
@@ -65,7 +65,7 @@ Repositories: {{repos}}.
 **Is there anything you'd like to add to the `brief.md` created for {{key}}?**
 For example other repositories to read, points to watch, or decisions already
 made.
-Options: Nothing to add (Recommended); Other for your note.
+Options: Nothing to add (Recommended) · I'll write a note
 
 ## ask.spec-approval
 The spec is ready. {{review_line}}
@@ -129,7 +129,7 @@ Options: Remove (Recommended) · Keep
 ## ask.suite-command
 How do I run the full test suite of `{{repo}}`? I couldn't find it in its
 `CLAUDE.md`, README or CI config.
-Options: Leave it to CI · Other for the command
+Options: Leave it to CI (Recommended) · I'll type the command
 
 ## ask.workflow-approval
 Your workflow file asks me to act outside this machine. It is new or changed

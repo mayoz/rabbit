@@ -28,11 +28,17 @@ CHANGES = re.compile(r"([^\s,(]+)\s*\(\s*changes\s*\)")
 
 def reminders(jira):
     lines = [line.replace("`", "").strip() for line in jira.splitlines()]
+    if "## Status" not in lines:
+        return []
+    lines = lines[len(lines) - lines[::-1].index("## Status"):]
     out = []
     repos = [line for line in lines if line.startswith("Repositories:")]
     changes = set(CHANGES.findall(repos[-1])) if repos else set()
     done = {line.split()[1] for line in lines if line.startswith("Done:") and len(line.split()) > 1}
-    if changes and changes <= done and not any(line.startswith("Integration:") for line in lines):
+    cleanup = [line for line in lines if line.startswith("Cleanup:")]
+    waiting = bool(cleanup) and cleanup[-1].split()[1:2] == ["asked"]
+    ran = any(line.startswith("Integration:") for line in lines)
+    if changes and changes <= done and not ran and not waiting:
         out.append(INTEGRATION)
     asked, answered = [], set()
     for line in lines:
