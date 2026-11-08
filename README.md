@@ -73,6 +73,7 @@ whole change end to end and asks before it pushes.
 | `/rabbit:pull` | a new Desktop session | Pulls the active sprint. Run it again to add new tasks. |
 | `/rabbit:task [KEY \| URL]` | a task session, or any session with a key | Brief → spec → plan → dev sessions → integration → push. |
 | `/rabbit:dev` | started for you | Implements one repository's part of the plan. |
+| `/rabbit:reload` | a task or dev session | Reads the workflow file again; runs no other step. |
 
 [Getting started](docs/getting-started.md) and [Your first
 task](docs/first-task.md) walk you through it.
