@@ -160,7 +160,8 @@ order:
    it ends. Test data is always new and made for its scenario; existing records
    are not trusted. Each record's name or title holds the task key (`<KEY>
    <purpose>`, for example `ABC-123 paused recipient`). Every step goes to the
-   environment log (integration.md); a dev session sends it as `Env:` lines.
+   environment log (integration.md); a dev session sends it as `Env:` lines
+   in `rabbit: done` and `rabbit: result`.
 2. **Safety.** Read every service address the command would connect to
    (database, cache, queue, mail, storage, payment, external API; not one the
    config leaves unused, such as `DB_HOST` when the tests use sqlite) from the

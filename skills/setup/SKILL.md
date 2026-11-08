@@ -72,8 +72,8 @@ can't run, read the file instead.
 ## 3. Basics
 
 Ask `workspace`, `repositories`, `chat-language`, `doc-language` in turn.
-- Workspace folder missing: send `setup.folder-create`; on yes, `mkdir -p` it;
-  else ask again.
+- Workspace folder missing: ask `setup.folder-create` with `AskUserQuestion`;
+  on Create it, `mkdir -p` it; else ask again.
 - Repositories folder: count clones with
   `find "<dir>" -maxdepth 3 -name .git | wc -l`; send `setup.repos-found` and
   continue, or `setup.repos-none` and ask again (unless the user gave this

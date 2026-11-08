@@ -24,7 +24,7 @@ I read your workflow file. It has instructions for: {{stages}}. Every other
 stage uses Rabbit's default.
 
 ## setup.workflow-missing
-I can't read `{{path}}`. Check the path, or reply `no` to continue without a
+I can't read `{{path}}`. Check the path, or pick No to continue without a
 workflow file.
 
 ## setup.workflow-unknown
@@ -37,7 +37,8 @@ These placeholders aren't filled in: {{placeholders}}. I'll ask for them each
 time a task needs them; fill them in the file to stop that.
 
 ## setup.folder-create
-`{{path}}` doesn't exist yet. Create it? (`yes` / `no`)
+`{{path}}` doesn't exist yet. Create it?
+Options: Create it (Recommended) · Choose another folder
 
 ## setup.repos-found
 Found {{count}} git repositories in `{{path}}`.

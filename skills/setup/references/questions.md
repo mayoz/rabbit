@@ -7,7 +7,7 @@ default. Translate into `LANG`; keep paths, URLs, commands and keys as they are.
 ## workflow
 **Do you have a Rabbit workflow file?**
 A workflow file tells Rabbit how you work at each stage.
-Reply with its path or `no` (Rabbit then uses its defaults and asks when a
+Give its path or pick No (Rabbit then uses its defaults and asks when a
 choice is needed). Example: `~/rabbit/rabbit-workflow.md`. Default: `No`.
 Header: `Workflow`. Options: `No`; `~/rabbit/rabbit-workflow.md`;
 `~/httpdocs/rabbit-workflow.md`.

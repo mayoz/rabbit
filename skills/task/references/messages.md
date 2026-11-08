@@ -57,6 +57,7 @@ Check the names.
 
 ## ask.repo-which
 There is more than one `{{name}}`: {{paths}}. Which one?
+Options: each path in {{paths}} (up to 4; Other for the rest).
 
 ## confirm.repos
 Repositories: {{repos}}.
