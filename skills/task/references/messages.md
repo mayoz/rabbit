@@ -32,6 +32,10 @@ Your workflow file has headings that name no Rabbit stage, so I won't apply
 them:
 {{headings}}.
 
+## done.reload
+Workflow read again: {{changes}}. The next step follows it.
+{{placeholders}}
+
 ## ask.instruction-failed
 I couldn't apply this instruction from your workflow file ({{stage}}):
 "{{instruction}}"
