@@ -16,6 +16,13 @@ All notable changes to this project are documented here. The format follows
 - Word targets for the brief, the spec and the plan.
 - Hook reminders: Integration that has not run yet, and questions still
   waiting for an answer; the language reminder also follows subagent reports.
+  A status line an answer writes (`Approved:`, `Cleanup:`, `Push:`, `CI:`)
+  counts as that answer.
+- The push question shows each repository's branch and base in a table.
+- Checks that wait for a later step: name them under `## Push` and CI is
+  followed without them, so `## Push:After` (for example a QA hand-off) can
+  run. `ci_wait.py` watches the other checks.
+- Dev sessions ask for blockers with the same "Done, try again" question.
 
 ### Changed
 - Every closed question has buttons, the recommended answer first, after a
@@ -30,6 +37,9 @@ All notable changes to this project are documented here. The format follows
   keep or remove the test data.
 - Integration always runs after the last repository is done, and there is no
   push question before it.
+- A change you ask for after an approval counts as approved; Rabbit asks again
+  only for a critical change it makes itself.
+- The setup questions use buttons too.
 - The observer writes its findings in the document language.
 - `impact.md` and the spec list only surfaces that cross repositories; with
   none they say so in one line.

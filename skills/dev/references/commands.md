@@ -35,14 +35,17 @@ blocked <reason>`.
 
 `gh pr ready <url>`, then `SendMessage`: `rabbit: pr <url> ready`.
 
-## `rabbit: ci`
+## `rabbit: ci [waiting: <check>; <check>]`
 
-Run `gh pr checks <url> --required --watch --fail-fast` with Bash
-`run_in_background: true`; with no required checks, the same without
-`--required`. When it exits, answer `rabbit: ci passed`, `rabbit: ci passed
-none` (no checks at all) or `rabbit: ci failed <check>`. A pull request with a
-merge conflict (`gh pr view <url> --json mergeable` is `CONFLICTING`) answers
-`rabbit: ci failed merge conflict with <BASE>`. Never poll on a timer.
+Run `PY -I "${CLAUDE_PLUGIN_ROOT}/skills/task/scripts/ci_wait.py" <url>`, with
+`--waiting "<check>"` for each check named after `waiting:`, with Bash
+`run_in_background: true`. It leaves those checks out (they wait for a later
+step, such as QA or a test environment) and prints one line when the rest are
+done. Answer `rabbit: ci` followed by that line: `passed`, `passed none` (no
+checks at all), `passed waiting: <checks>` or `failed <checks>`. A pull
+request with a merge conflict (`gh pr view <url> --json mergeable` is
+`CONFLICTING`) answers `rabbit: ci failed merge conflict with <BASE>`. Never
+poll on a timer.
 
 ## `rabbit: fix <finding, check or instruction>`
 

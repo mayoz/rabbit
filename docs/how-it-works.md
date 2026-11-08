@@ -94,11 +94,12 @@ nothing.
    diff.
 5. **Integration.** The whole change is checked together; see
    [below](#integration).
-6. **Push.** Rabbit asks once for all repositories: ready for review or draft.
+6. **Push.** Rabbit shows each repository's branch and asks once for all of
+   them: ready for review or draft.
    The dev sessions push and open pull requests; Rabbit links them to each
    other.
 7. **CI.** Rabbit asks whether to follow CI and asks before fixing a failing
-   check.
+   check. Checks the workflow names as waiting for a later step are left out.
 
 [Your first task](first-task.md) walks through these steps from your side.
 

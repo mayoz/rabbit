@@ -9,7 +9,8 @@ about the push before it.
    `origin/<base>` (`git -C <repo> rev-list --count <branch>..origin/<base>`
    above 0) is named in `{{behind_line}}` ("<repo> is <n> commits behind <base>;
    say if I should merge it in.", else empty); merging is the user's call
-   (`rabbit: fix merge origin/<base>`).
+   (`rabbit: fix merge origin/<base>`). `{{branches}}`: a table from the `Dev:`
+   lines (`| Repository | Branch | Base |`).
    Apply `WF.stages.Push.before`; a command in a repository goes to its dev
    session as `rabbit: run <command>`. A dev session that answers `rabbit:
    result failed` there:
@@ -58,20 +59,27 @@ about the push before it.
    each answered `rabbit: pr <url> ready`, go on with step 6.
 6. Send `ask.ci` and end the turn. Append `CI: followed <date>` on yes, `CI: not
    followed <date>` on no.
-   - Yes: send each dev session `rabbit: ci`. Each watches its own pull
-     request's checks and answers `rabbit: ci passed`, `rabbit: ci passed none`
-     (no checks) or `rabbit: ci failed
-     <check>`; read the details with `mcp__ccd_pr__get_status` (`session_id` =
-     that dev session). Never poll on a timer. A required check fails:
+   - Yes: send each dev session `rabbit: ci`, followed by `waiting: <check>;
+     <check>` when the workflow names checks that wait for a later step (QA, a
+     test environment): those never pass before that step, so CI is followed
+     without them. Each watches its own pull request's checks and answers
+     `rabbit: ci passed`, `rabbit: ci passed none` (no checks), `rabbit: ci
+     passed waiting: <checks>` or `rabbit: ci failed <check>`; read the
+     details with `mcp__ccd_pr__get_status` (`session_id` = that dev
+     session). Never poll on a timer. A required check fails:
      send `ci.failed` and wait. On yes, send that dev session `rabbit: fix
      <check name>`; it fixes, commits and pushes to the same branch (no second
      push question), then answers `rabbit: done`. Follow again. On no: append
      `CI: failed <date>`; do not apply `WF.stages.Push.after`; the task ends
      with the last message below.
-   - Every dev session answered `rabbit: ci passed` (or `passed none`): append
-     `CI: passed <date>` and send `ci.passed`.
-7. When the required checks pass, or the user did not want CI followed, apply
-   `WF.stages.Push.after`, then append `After: <date>`.
+   - Every dev session answered `rabbit: ci passed` (or `passed none`, or
+     `passed waiting: …`): append `CI: passed <date>` and send `ci.passed`
+     (`{{waiting_line}}`: "Waiting for a later step: <checks>.", else
+     empty); the table's CI cell of a pull request with waiting checks is
+     `passed (waiting: <checks>)`.
+7. When the required checks pass (waiting checks left out), or the user did
+   not want CI followed, apply `WF.stages.Push.after`, then append `After:
+   <date>`.
 8. **Last message.** The updated `publish.table`, then the closing question if
    there is one (a Push:After instruction may ask one), else one line that the
    task is done.

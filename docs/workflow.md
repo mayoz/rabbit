@@ -41,7 +41,7 @@ applies from the next session on. Start from
 | `## Execute` | while a dev session implements the plan | superpowers when installed, else native |
 | `## Review` | in every blind review (adds criteria) | the blind review only |
 | `## Integration` | while the changed repositories are checked together | impact check, joint review, contract tests, each repository's full test suite once, every spec scenario tried in the running apps |
-| `## Push` | while branches are pushed and pull requests opened | push and open pull requests, ready or draft as you answer |
+| `## Push` | while branches are pushed, pull requests opened and CI followed; may name checks that wait for a later step (QA, a test environment), which CI following leaves out | push and open pull requests, ready or draft as you answer |
 
 `## Spec and Plan` is a shorthand: its instructions apply to both stages.
 
@@ -84,7 +84,11 @@ and is approved):
 | `## Push:After` | once the pull requests are ready for review and the required checks pass, or right away when you chose not to follow CI |
 
 `## Push:After` never runs for draft pull requests, or after a failing check you
-chose not to fix. `## Spec and Plan:After` works too.
+chose not to fix. Checks that only pass after a later step (a QA run, a test
+environment) would hold it forever: name them under `## Push`, for example
+"These checks wait for the test environment: `e2e/staging`, `Release Gate`."
+Rabbit then follows CI without them and runs `## Push:After` when the rest
+pass. `## Spec and Plan:After` works too.
 
 `/rabbit:pull` starts every task at once, so a tracker change belongs after an
 approval (`## Plan:After`), not in `## Brief:Before`.

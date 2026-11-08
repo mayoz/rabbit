@@ -153,7 +153,11 @@ I can't go on with {{step}} without you: {{problem}}
 Options: Done, try again (Recommended) · Skip it (its checks stay unverified)
 
 ## ask.push-anyway
-Done: {{repos}}. These scenarios did not pass:
+Done: {{repos}}.
+
+{{branches}}
+
+These scenarios did not pass:
 
 {{rows}}
 
@@ -162,13 +166,21 @@ Push anyway?
 Options: Push as draft (Recommended) · Push ready for review · Don't push yet
 
 ## ask.push
-Done: {{repos}}. {{behind_line}}
+Done: {{repos}}.
+
+{{branches}}
+
+{{behind_line}}
 Shall I push and open the pull requests? Some CI checks skip draft pull
 requests.
 Options: Push ready for review (Recommended) · Push as draft · Don't push yet
 
 ## ask.push-manual
-Done: {{repos}}. {{behind_line}}
+Done: {{repos}}.
+
+{{branches}}
+
+{{behind_line}}
 None of these repositories is on GitHub, so I'll push the branches and you open
 the merge requests yourself. Shall I push?
 Options: Push (Recommended) · Don't push yet
@@ -193,4 +205,4 @@ Shall I fix it and push the fix to the same branch?
 Options: Fix and push (Recommended) · Leave it
 
 ## ci.passed
-All required checks passed: {{prs}}.
+All required checks passed: {{prs}}. {{waiting_line}}

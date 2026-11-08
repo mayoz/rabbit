@@ -136,8 +136,9 @@ asks whether to remove it.
 
 ## 7. Push
 
-Rabbit asks once for all repositories: open the pull requests **ready** for
-review (recommended) or as **draft**. If some rows did not pass, it shows them,
+Rabbit shows a table of the repositories with their branch and base, then asks
+once for all of them: open the pull requests **ready** for review (recommended)
+or as **draft**. If some rows did not pass, it shows them,
 asks whether to push anyway and recommends **draft**. Repositories not on GitHub
 get their branch pushed; you open the merge request yourself.
 
@@ -154,8 +155,10 @@ Drafts wait: tell Rabbit when they should be ready for review.
 
 Rabbit asks whether to follow CI. If yes, each dev session watches its own pull
 request. When a required check fails, Rabbit tells you which one and asks before
-it fixes it; a fix is pushed to the same branch. The last message repeats the
-table with CI results.
+it fixes it; a fix is pushed to the same branch. Checks your workflow names as
+waiting for a later step (QA, a test environment) are left out: they cannot
+pass before that step, so CI counts as passed without them and the table shows
+them as waiting. The last message repeats the table with CI results.
 
 ## 9. Finish the task
 
