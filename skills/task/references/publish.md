@@ -2,7 +2,8 @@
 
 Runs in the task session after Integration. The dev sessions push; this session
 asks, collects and reports. Apply the workflow's Push instructions at the points
-below.
+below. No `Integration:` line in `jira.md`: run integration.md first; never ask
+about the push before it.
 
 1. For each repository: `git -C <repo> fetch origin <base>`; a branch behind
    `origin/<base>` (`git -C <repo> rev-list --count <branch>..origin/<base>`
@@ -17,11 +18,10 @@ below.
    when Integration did not pass in full (`{{rows}}` = the table rows that did
    not pass), and end the turn. No repository on GitHub (rules.md): send
    `ask.push-manual` instead (with the failed rows first, when there are any); a
-   yes is **ready**. The answer is **ready** or **draft**; a plain yes
-   is **ready** for `ask.push` and **draft** for `ask.push-anyway`: append
-   `Push: <ready|draft> <date>` to `jira.md`. No: push nothing; when the user
-   later asks to run Integration again, follow integration.md again (the last
-   `Integration:` line counts). Anything else: wait.
+   yes is **ready**. The answer is **ready** or **draft** (its option): append
+   `Push: <ready|draft> <date>` to `jira.md`. Don't push: push nothing; when
+   the user later asks to run Integration again, follow integration.md again
+   (the last `Integration:` line counts). Anything else: wait.
 2. Send `rabbit: push ready` or `rabbit: push draft` to each dev session without
    a `PR:`
    line. Each pushes and answers `rabbit: pr <url> <draft|ready>`, `rabbit: pr

@@ -137,12 +137,16 @@ step. On every change:
 Before the first command in a worktree that boots the application or runs its
 tests (a dev session's tests, `rabbit: run`, the Integration stage), in this
 order:
-1. **Setup.** No dependencies (for example `vendor/`, `node_modules/`, `.venv/`)
-   or no `.env`: send `ask.run-setup` once with the install command from the
-   repository's documents and the copy of `.env` from the main checkout. These
-   are the only files a session adds to a worktree outside the plan; never
-   commit them. No: do not run it; what needed it is `unverified`, To pass
-   "install the dependencies in `<worktree>`".
+1. **Setup, without asking.** Apply the workflow's `## Environment`
+   (`WF.environment`) at every step that runs something. Missing dependencies
+   (for example `vendor/`, `node_modules/`, `.venv/`) or `.env`: install them
+   with the command from the repository's documents, copy `.env` from the main
+   checkout and run the repository's own setup command; never commit these
+   files. A setting a test needs may change for that test and is restored when
+   it ends. Test data is always new and made for its scenario; existing records
+   are not trusted. Each record's name or title holds the task key (`<KEY>
+   <purpose>`, for example `ABC-123 paused recipient`). Every step goes to the
+   environment log (integration.md); a dev session sends it as `Env:` lines.
 2. **Safety.** Read every service address the command would connect to
    (database, cache, queue, mail, storage, payment, external API; not one the
    config leaves unused, such as `DB_HOST` when the tests use sqlite) from the
@@ -159,9 +163,22 @@ order:
    for its own tests sends `step.blocked`.
 3. No migration or seeder runs on any database without asking, and neither do
    tests that reset a database (for example Laravel's `RefreshDatabase`) unless
-   it is a test database of its own, not the one the app uses. Sign-in data only
-   from the repository's seed, fixture or example config files.
+   it is a test database of its own, not the one the app uses, or the workflow
+   allows it. Sign-in data: as `WF.environment` says, else the repository's
+   seed, fixture or example config files.
 4. **Compose.** A compose service the command needs may be started from the
    worktree, always as `docker compose -p rabbit-<key-lowercase>-<repo> up -d
    <service>`; a `container_name` that already runs belongs to the user: ask.
    Stop only that project's containers, never with `-v`.
+
+## Blockers
+
+A blocker is the only thing the user has to do: a browser sign-in, `sudo`, a
+stop condition in `WF.environment`, a service that is not local, an app whose
+start command is nowhere. Send `ask.blocker`; on its retry option run the step
+again. Not cleared: the rows that need it are `unverified` and the flow goes
+on.
+
+A command fails on authorization (an expired token, no credentials) and
+`WF.environment` names a check and a refresh: run the check, apply the refresh
+(a blocker when it needs the user), then run the command once more.

@@ -47,11 +47,6 @@ Tests run: {{tests}}
 Review: {{review_summary}}
 I told the task session. Nothing is pushed; the task session asks you first.
 
-## ask.run-setup
-To run tests in `{{worktree}}` I need to install its dependencies
-(`{{install}}`) and copy `.env` from `{{main_checkout}}`. Shall I? (`yes` /
-`no`)
-
 ## pushed
 Pushed `{{branch}}` and opened {{pr}} ({{status}}).
 

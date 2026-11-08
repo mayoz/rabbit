@@ -218,7 +218,8 @@ are approved.
 
 Answer the dev sessions' messages (`SendMessage` to their `local_…` id). Each
 sends `rabbit: done <commits>` when its part is implemented and self-reviewed;
-on the first one per repository append `Done: <repo> <date>` to `jira.md`. Write
+on the first one per repository append `Done: <repo> <date>` to `jira.md`
+(also when a subagent wrote the code). Write
 the findings and follow-ups any `rabbit: done` carries to
 `reviews/diff-<repo>.md` (`references/review.md`, Review file).
 `rabbit: blocked <reason>` or a question it relays: tell the user, and send the
@@ -226,7 +227,7 @@ answer back as `rabbit: answer <text>`; `rabbit: answered <question>`: the user
 answered there, drop it.
 `rabbit: placeholder <name> <value>`: append `Answer: <name> <value>`. `rabbit:
 plan wrong <path:line> <finding>`: change spec and plan as **Approval** says.
-All done: go to step 7.
+All **changes** repositories `Done:`: step 7, in the same turn.
 
 ## 7. Integration (stage Integration)
 

@@ -4,9 +4,11 @@ Runs in the task session after every dev session has sent `rabbit: done`, before
 the push question, for one repository or many. It proves the change works end to
 end against the spec's `## Scenarios` and that no consumer breaks. Apply the
 workflow's `## Integration:Before`, `## Integration` and `## Integration:After`
-instructions at their points. This session runs the applications under
-rules.md's **Running the app or its tests**; it never edits code, and changes
-settings only through environment variables on the command it runs.
+instructions at their points, and `WF.environment` at every step that runs
+something. This session runs the applications under rules.md's **Running the
+app or its tests**; it never edits code, and a setting it changes for a test is
+restored when the test ends. Only this session writes `integration.md`; it adds
+the `Env:` lines the dev sessions send to its environment log.
 
 1. **Refresh the impact list.** Re-run the impact search (discovery.md) against
    each changing repository's branch instead of its base (`git -C <repo> grep
@@ -72,8 +74,12 @@ settings only through environment variables on the command it runs.
    `TASK_DIR/integration.md` as soon as it exists, so cleanup survives a
    restart. Then complete `integration.md` in `DOC_LANG`: the table, the test
    data this stage created (each record, file or message, with how it was
-   created), and the review summary. Send `integration.report` with the counts
-   as its summary (`3 passed, 1 failed, 1 unverified`) and the table:
+   created), the review summary and an `## Environment log` section (heading
+   in `DOC_LANG`): one line per environment step, saying what was done,
+   restored, missing and completed, or could not be completed (for example
+   `.env` `RATE_LIMIT_ENABLED=false` → test → restored). Send
+   `integration.report` with the counts as its summary (`3 passed, 1 failed,
+   1 unverified`) and the table:
 
 ```markdown
 | # | Scenario | Criterion | Result | Evidence | Reason | To pass |
@@ -90,7 +96,9 @@ settings only through environment variables on the command it runs.
    did not run is reported as passed, and the change is never called working
    unless every row passed.
 
-   **Cleanup.** No test data created: stop every process this stage started.
+   **Cleanup.** Settings changed for a test are already restored; they do not
+   wait for this question. No test data created: stop every process this stage
+   started.
    Otherwise send `ask.cleanup` with the list in the same message, append
    `Cleanup: asked <date>` to `jira.md` and end the turn, leaving the apps
    running. Yes: remove only those items, the way each was created in reverse (a

@@ -145,10 +145,10 @@ How do I start `{{repo}}` locally? I couldn't find it in its `CLAUDE.md`,
 README, compose or package scripts. Adding the answer to its `CLAUDE.md` would
 help next time.
 
-## ask.run-setup
-To run `{{repo}}` in `{{worktree}}` I need to install its dependencies
-(`{{install}}`) and copy `.env` from `{{main_checkout}}`. Shall I? (`yes` /
-`no`; with no, those scenarios stay unverified)
+## ask.blocker
+I can't go on with {{step}} without you: {{problem}}
+{{what_to_do}}
+Options: Done, try again (Recommended) · Skip it (its checks stay unverified)
 
 ## ask.push-anyway
 Done: {{repos}}. These scenarios did not pass:
